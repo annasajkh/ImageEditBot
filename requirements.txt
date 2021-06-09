@@ -1,0 +1,4 @@
+tweepy~=3.9.0
+Pillow~=8.0.1
+numpy~=1.19.3
+simpleeval~=0.9.10
