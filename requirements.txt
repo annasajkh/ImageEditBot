@@ -2,7 +2,6 @@ aiodns==3.0.0
 aiohttp==3.7.4.post0
 aiohttp-socks==0.4.1
 appdirs==1.4.4
-apt-clone==0.2.1
 apturl==0.5.2
 async-timeout==3.0.1
 attrs==21.2.0
