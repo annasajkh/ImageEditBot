@@ -123,7 +123,7 @@ def handle(twitter, tweet, root_tweet, commands):
                 elif key == "glitch":
                     cmd.glitch(value)
 
-            cmd.save("img.png")
+            cmd.img.save("img.png")
             res = twitter.media_upload("img.png")
 
             if not res == "":
@@ -134,7 +134,6 @@ def handle(twitter, tweet, root_tweet, commands):
                 os.remove(img_path)
 
             twitter.update_status(f"@{tweet.user.screen_name}", media_ids=media_ids, in_reply_to_status_id=tweet.id)
-
     except Exception as e:
         string = str(e)
 

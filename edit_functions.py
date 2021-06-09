@@ -22,7 +22,7 @@ def to_array(value, min_length):
             value[i] = value[i].strip()
             value[i] = int(value[i])
     except Exception as e:
-        raise Exception("error while converting value : " + e)
+        raise Exception("error while converting values")
     
     return value
 

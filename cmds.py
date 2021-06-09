@@ -3,8 +3,6 @@ import random
 import numpy
 import simpleeval
 import edit_functions
-import glob
-import os
 import urllib.request
 
 from typing import Tuple
@@ -48,8 +46,15 @@ class Command:
             raise Exception("unknown argument")
     
     def text(self, value):
-        value = edit_functions.to_array(value, 4)
+        value = value.split(";")
 
+        try:
+            value[1] = int(value[1])
+            value[2] = int(value[2])
+            value[3] = int(value[3])
+        except:
+            raise Exception("error while converting the values")
+        
         draw = ImageDraw.Draw(self.img)
         draw.text((value[1], value[2]), value[0], (255,255,255),font=ImageFont.truetype("arial.ttf", value[3]))
 
@@ -115,13 +120,10 @@ class Command:
         self.img = self.img.filter(ImageFilter.FIND_EDGES)
     
     def repeat(self, value):
-        value = edit_functions.convert_value(value, 2)
+        value = edit_functions.to_array(value, 2)
 
-        if value == "":
-            return
-
-        img = self.img.resize((self.img.width // value[0], self.img.height // value[1]))
-        img = edit_functions.get_concat_tile_repeat(img, value[0], value[1])
+        self.img = self.img.resize((self.img.width // value[0], self.img.height // value[1]))
+        self.img = edit_functions.get_concat_tile_repeat(self.img, value[0], value[1])
     
     def max(self, value):
         try:
@@ -140,7 +142,7 @@ class Command:
         self.img = self.img.filter(ImageFilter.MedianFilter(value))
     
     def resize(self, value):
-        value = edit_functions.convert_value(value, 2)
+        value = edit_functions.to_array(value, 2)
 
         self.img = self.img.resize((edit_functions.clamp(value[0], 1, 8192), edit_functions.clamp(value[1], 1, 8192)))
     
@@ -176,12 +178,11 @@ class Command:
         self.twitter.update_status(media_ids=[r.media_id], in_reply_to_status_id=self.tweet.id,
                             auto_populate_reply_metadata=True)
     def r(self, value):
-        pixels =self. img.load()
+        pixels = self.img.load()
 
         for i in range(self.img.size[0]):
             for j in range(self.img.size[1]):
-                
-                if type(pixels[i, j]) == Tuple:
+                if type(pixels[i, j]) == tuple:
                     pixels[i, j] = (simpleeval.simple_eval(html.unescape(value), names={
                                         "r": pixels[i, j][0],
                                         "g": pixels[i, j][1],
@@ -191,7 +192,7 @@ class Command:
                                     pixels[i, j][2])
                 else:
                         pixels[i, j] = simpleeval.simple_eval(html.unescape(value), names={
-                                        "b": pixels[i, j]
+                                        "r": pixels[i, j]
                                     })
     
     def g(self, value):
@@ -200,7 +201,7 @@ class Command:
         for i in range(self.img.size[0]):
             for j in range(self.img.size[1]):
 
-                if type(pixels[i, j]) == Tuple:
+                if type(pixels[i, j]) == tuple:
                     pixels[i, j] = (pixels[i, j][0],
                                     simpleeval.simple_eval(html.unescape(value), names={
                                         "r": pixels[i, j][0],
@@ -210,7 +211,7 @@ class Command:
                                     pixels[i, j][2])
                 else:
                         pixels[i, j] = simpleeval.simple_eval(html.unescape(value), names={
-                                        "b": pixels[i, j]
+                                        "g": pixels[i, j]
                                     })
     def b(self, value):
         pixels = self.img.load()
@@ -218,7 +219,7 @@ class Command:
         for i in range(self.img.size[0]):
             for j in range(self.img.size[1]):
 
-                if type(pixels[i, j]) == Tuple:
+                if type(pixels[i, j]) == tuple:
                     pixels[i, j] = (pixels[i, j][0],
                                     pixels[i, j][1],
                                     simpleeval.simple_eval(html.unescape(value), names={
@@ -241,11 +242,11 @@ class Command:
 
         HSV = self.img.convert("HSV")
         H, S, V = HSV.split()
-        H = H.point(lambda : value)
+        H = H.point(lambda x : value)
         self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
 
     def wave(self, value):
-        value = edit_functions.convert_value(value, 2)
+        value = edit_functions.to_array(value, 2)
 
         A = self.img.width / value[1]
         w = value[0] / self.img.height
@@ -272,4 +273,4 @@ class Command:
 
             self.img = PillImage.fromarray(arr)
         else:
-            self.img = self.img.point(lambda : random.randint(0, 256))
+            self.img = self.img.point(lambda x : random.randint(0, 256))
