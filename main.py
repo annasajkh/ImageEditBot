@@ -13,7 +13,7 @@ class Listener(tweepy.StreamListener):
         if tweet.in_reply_to_status_id_str == None:
             root_tweet = tweet
         else:
-            root_tweet = api.get_status(tweet.in_reply_to_status_id_str)
+            root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
             if "media" in tweet.entities:
                 for media in tweet.extended_entities["media"]:
                     url = media["media_url"]
