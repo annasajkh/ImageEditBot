@@ -1,3 +1,4 @@
+from typing import List
 from PIL import Image as PillImage
 
 
@@ -10,16 +11,19 @@ def clamp(value, min_value, max_value):
     return max(min(value, max_value), min_value)
 
 
-def convert_value(value, min_length):
-    value = value.split(";")
+def to_array(value, min_length):
+    value : List = value.split(";")
+
     if len(value) < min_length:
-        return ""
+        raise Exception("not enough arguments")
+    
     try:
         for i in range(len(value)):
             value[i] = value[i].strip()
             value[i] = int(value[i])
-    except:
-        return ""
+    except Exception as e:
+        raise Exception("error while converting value : " + e)
+    
     return value
 
 

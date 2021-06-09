@@ -3,6 +3,7 @@ import auth
 import os
 import tweepy
 import handle_commands
+from api import twitter
 
 
 class Listener(tweepy.StreamListener):
@@ -26,24 +27,27 @@ class Listener(tweepy.StreamListener):
                     return
         else:
             return
+
         text = re.sub("@[^\s]+", "", tweet.text)
         text = re.sub("https://[^\s]+", "", text)
         text = re.sub("\n", "", text.lower())
+
         if not "=" in text:
             return
+
         commands = text.split(",")
+
         if len(commands) < 1:
             return
-        handle_commands.handle(api, tweet, root_tweet, commands)
 
+        handle_commands.handle(twitter, tweet, root_tweet, commands)
 
-auth = tweepy.OAuthHandler(os.environ["CONSUMER_KEY"], os.environ["CONSUMER_SECRET"])
-auth.set_access_token(os.environ["ACCESS_TOKEN"],os.environ["ACCESS_TOKEN_SECRET"])
-
-
-
-api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 listener = Listener()
 stream = tweepy.Stream(auth, listener=listener)
-stream.filter(track=["@ImageEditBot"])
+
+while True:
+    try:
+        stream.filter(track=["@ImageEditBot"])
+    except:
+        continue
