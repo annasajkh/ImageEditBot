@@ -4,7 +4,7 @@ from PIL import Image as PillImage
 
 def blend(img1, img2, alpha):
     img2 = img2.resize(img1.size)
-    return PillImage.blend(img1, img2, alpha)
+    return PillImage.blend(img1.convert("RGBA"), img2.convert("RGBA"), alpha)
 
 
 def clamp(value, min_value, max_value):
