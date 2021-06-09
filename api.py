@@ -1,4 +1,3 @@
-import auth
 import tweepy
 import os
 
