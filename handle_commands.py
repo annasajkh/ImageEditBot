@@ -24,7 +24,7 @@ def handle(twitter, tweet, root_tweet, commands):
         for media in entities:
             urllib.request.urlretrieve(media["media_url"], "img.png")
 
-            cmd : cmds.Command = cmds.Command(PillImage.open("img.png"), entities, twitter, tweet)
+            cmd : cmds.Command = cmds.Command(PillImage.open("img.png").convert("RGBA"), entities, twitter, tweet)
 
             for command in commands:
                 if not "=" in command:
