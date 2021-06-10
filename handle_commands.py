@@ -122,6 +122,8 @@ def handle(twitter, tweet, root_tweet, commands):
                     
                 elif key == "glitch":
                     cmd.glitch(value)
+                elif key == "mirror":
+                    cmd.mirror(value)
 
             cmd.img.save("img.png")
             res = twitter.media_upload("img.png")
