@@ -279,7 +279,7 @@ class Command:
         #value[0] = h or v
         #value[1] = right or left
         value = value.split(";")
-
+        print("mirror")
         pixels = self.img.load()
 
         if value[0] == 'h':
