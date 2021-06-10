@@ -283,16 +283,16 @@ class Command:
         pixels = self.img.load()
 
         if value[0] == 'h':
+            half_size_x = math.ceil(self.img.size[0] / 2)
+
             if value[1] == "right":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
-                        half_size_x = math.ceil(self.img.size[0] / 2)
                         if i <= half_size_x:
                             pixels[i, j] = pixels[i + half_size_x * 2 - (i + half_size_x),j]
             elif value[1] == "left":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
-                        half_size_x = math.ceil(self.img.size[0] / 2)
                         if i >= half_size_x:
                             pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
             else:
