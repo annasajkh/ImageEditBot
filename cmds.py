@@ -289,7 +289,7 @@ class Command:
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         if i <= half_size_x:
-                            pixels[i, j] = pixels[(half_size_x - (i - half_size_x)) + i,j]
+                            pixels[i, j] = pixels[half_size_x * 2- (half_size_x + i)i,j]
             elif value[1] == "left":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
