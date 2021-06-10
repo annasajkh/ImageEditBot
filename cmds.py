@@ -287,13 +287,13 @@ class Command:
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         half_size_x = math.ceil(self.img.size[0] / 2)
-                        if pixels[i, j] <= half_size_x:
+                        if i <= half_size_x:
                             pixels[i, j] = pixels[i + half_size_x * 2 - (i + half_size_x),j]
             elif value[1] == "left":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         half_size_x = math.ceil(self.img.size[0] / 2)
-                        if pixels[i, j] >= half_size_x:
+                        if i >= half_size_x:
                             pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
             else:
                 raise Exception("unknown argument")
