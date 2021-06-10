@@ -298,12 +298,18 @@ class Command:
             else:
                 raise Exception("unknown argument")
         elif value[0] == 'v':
-            if value[1] == "right":
+            half_size_y = math.ceil(self.img.size[1] / 2)
+
+            if value[1] == "top":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
-                        pass
-            elif value[1] == "left":
-                pass
+                        if i <= half_size_y:
+                            pixels[i, j] = pixels[i,half_size_y - j + half_size_y - j,]
+            elif value[1] == "bottom":
+                for i in range(self.img.size[0]):
+                    for j in range(self.img.size[1]):
+                        if i >= half_size_y:
+                            pixels[i, j] = pixels[i,half_size_y - (j - half_size_y)]
             else:
                 raise Exception("unknown argument")
         else:
