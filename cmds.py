@@ -20,7 +20,7 @@ class Command:
         try:
             value = edit_functions.clamp(int(value), -360, 360)
         except:
-            raise("there is something wrong with rotate value")
+            raise Exception("there is something wrong with rotate value")
         
         self.img = self.img.rotate(value)
     
@@ -33,7 +33,7 @@ class Command:
         try:
             value = edit_functions.clamp(int(value), 0, 100)
         except:
-            raise("there is something wrong with blur value")
+            raise Exception("there is something wrong with blur value")
 
         self.img = self.img.filter(ImageFilter.GaussianBlur(value))
     
@@ -62,7 +62,7 @@ class Command:
         try:
             value = edit_functions.clamp(int(value), 0, 17)
         except:
-            raise("there is something wrong with min value")
+            raise Exception("there is something wrong with min value")
 
         self.img = self.img.filter(ImageFilter.MinFilter(value))
     
@@ -101,7 +101,7 @@ class Command:
         try:
             value = edit_functions.clamp(int(value), -1000, 1000)
         except:
-            raise("there is something wrong with contrast value")
+            raise Exception("there is something wrong with contrast value")
         
         self.img = edit_functions.change_contrast(self.img, value)
     
@@ -109,7 +109,7 @@ class Command:
         try:
             value = edit_functions.clamp(int(value), -100, 100)
         except:
-            raise("there is something wrong with solarize value")
+            raise Exception("there is something wrong with solarize value")
         
         self.img = ImageOps.solarize(self.img, value)
     
@@ -129,7 +129,7 @@ class Command:
         try:
             value = int(value)
         except:
-            raise("there is something wrong with max value")
+            raise Exception("there is something wrong with max value")
 
         self.img = self.img.filter(ImageFilter.MaxFilter(value))
     
@@ -137,7 +137,7 @@ class Command:
         try:
             value = int(value)
         except:
-            raise("there is something wrong with median value")
+            raise Exception("there is something wrong with median value")
             
         self.img = self.img.filter(ImageFilter.MedianFilter(value))
     
@@ -150,7 +150,7 @@ class Command:
         try:
             value = int(value)
         except:
-            raise("there is something wrong with brightness value")
+            raise Exception("there is something wrong with brightness value")
 
         applier = ImageEnhance.Brightness(self.img)
 
@@ -160,7 +160,7 @@ class Command:
         try:
             value = float(value)
         except:
-            raise("there is something wrong with blend value")
+            raise Exception("there is something wrong with blend value")
 
         for i in range(len(self.entities) - 1):
             if i == 0:
@@ -238,7 +238,7 @@ class Command:
         try:
             value = int(value)
         except:
-            raise("there is something wrong with hue value")
+            raise Exception("there is something wrong with hue value")
 
         HSV = self.img.convert("HSV")
         H, S, V = HSV.split()
@@ -264,7 +264,7 @@ class Command:
             try:
                 value = edit_functions.clamp(int(value), 0, 80)
             except:
-                raise("there is something wrong with glitch value")
+                raise Exception("there is something wrong with glitch value")
 
             arr = numpy.array(self.img)
 
