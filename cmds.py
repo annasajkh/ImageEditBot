@@ -3,6 +3,7 @@ import random
 import numpy
 import simpleeval
 import edit_functions
+import math
 import urllib.request
 
 from typing import Tuple
@@ -44,7 +45,6 @@ class Command:
             self.img = self.img.transpose(PillImage.FLIP_TOP_BOTTOM)
         else:
             raise Exception("unknown argument")
-    
     def text(self, value):
         value = value.split(";")
 
@@ -274,3 +274,33 @@ class Command:
             self.img = PillImage.fromarray(arr)
         else:
             self.img = self.img.point(lambda x : random.randint(0, 256))
+    
+    def mirror(self,value):
+        #value[0] = h or v
+        #value[1] = right or left
+        value = value.split(";")
+
+        pixels = self.img.load()
+
+        if value[0] == 'h':
+            if value[1] == "right":
+                for i in range(self.img.size[0]):
+                    for j in range(self.img.size[1]):
+                        half_size_x = math.ceil(self.img.size[0] / 2)
+                        if pixels[i, j] <= half_size_x:
+                            pixels[i, j] = pixels[(i + half_size_x * 2 - (i + half_size_x)),j]
+            elif value[1] == "left":
+                pass
+            else:
+                raise Exception("unknown argument")
+        elif value[0] == 'v':
+            if value[1] == "right":
+                for i in range(self.img.size[0]):
+                    for j in range(self.img.size[1]):
+                        pass
+            elif value[1] == "left":
+                pass
+            else:
+                raise Exception("unknown argument")
+        else:
+            raise Exception("unknown argument")
