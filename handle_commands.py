@@ -8,7 +8,7 @@ from PIL import Image as PillImage
 keys = ["rotate", "crop", "blur", "flip", "text", "min", "contour",
         "enhance", "emboss", "grayscale", "invert", "contrast", "solarize",
         "edges", "repeat", "max", "median", "resize", "brightness", "blend",
-        "hue", "r","g","b", "wave", "glitch"]
+        "hue", "r","g","b", "wave", "glitch","mirror"]
 
 
 def handle(twitter, tweet, root_tweet, commands):
