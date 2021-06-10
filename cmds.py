@@ -297,6 +297,7 @@ class Command:
                             pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
             else:
                 raise Exception("unknown argument")
+                
         elif value[0] == 'v':
             half_size_y = math.ceil(self.img.size[1] / 2)
 
@@ -304,7 +305,7 @@ class Command:
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         if i <= half_size_y:
-                            pixels[i, j] = pixels[i,half_size_y - j + half_size_y - j,]
+                            pixels[i, j] = pixels[i,half_size_y - j + half_size_y - 1]
             elif value[1] == "bottom":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
