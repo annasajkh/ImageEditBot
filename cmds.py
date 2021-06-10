@@ -301,12 +301,12 @@ class Command:
         elif value[0] == 'v':
             half_size_y = self.img.size[1] // 2
 
-            if value[1] == "top":
+            if value[1] == "bottom":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         if j <= half_size_y:
                             pixels[i, j] = pixels[i,half_size_y - j + half_size_y]
-            elif value[1] == "bottom":
+            elif value[1] == "top":
                 for i in range(self.img.size[0]):
                     for j in range(self.img.size[1]):
                         if j >= half_size_y:
