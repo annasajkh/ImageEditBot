@@ -26,7 +26,10 @@ class Command:
     def crop(self,value):
         value = edit_functions.to_array(value, 4)
 
-        self.img = self.img.crop((value[0], value[1], value[2], value[3]))
+        self.img = self.img.crop(  (value[0] / 100 * self.img[0], 
+                                    value[1] / 100 * self.img[1], 
+                                    value[2] / 100 * self.img[0], 
+                                    value[3] / 100 * self.img[0]))
 
     def blur(self, value):
         try:
