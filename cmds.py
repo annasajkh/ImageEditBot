@@ -3,7 +3,6 @@ import random
 import numpy
 import simpleeval
 import edit_functions
-import math
 import urllib.request
 
 from typing import Tuple
@@ -262,7 +261,7 @@ class Command:
     def glitch(self, value):
         if not value == "true":
             try:
-                value = edit_functions.clamp(int(value), 0, 80)
+                value = edit_functions.clamp(int(value), 0, 255)
             except:
                 raise Exception("there is something wrong with glitch value")
 
@@ -279,7 +278,7 @@ class Command:
         #value[0] = h or v
         #value[1] = right or left
         value = value.split(";")
-        print("mirror")
+
         pixels = self.img.load()
 
         if value[0] == 'h':
