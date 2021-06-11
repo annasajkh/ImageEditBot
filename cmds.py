@@ -281,43 +281,33 @@ class Command:
             self.img = self.img.point(lambda x : random.randint(0, 256))
     
     def mirror(self,value):
-        #value[0] = h or v
-        #value[1] = right or left
-        value = value.split(";")
+        #value = right or left or top orbottom
 
         pixels = self.img.load()
 
-        if value[0] == 'h':
-            half_size_x = self.img.size[0] // 2
+        half_size_x = self.img.size[0] // 2
+        half_size_y = self.img.size[1] // 2
 
-            if value[1] == "right":
-                for i in range(self.img.size[0]):
-                    for j in range(self.img.size[1]):
-                        if i <= half_size_x:
-                            pixels[i, j] = pixels[half_size_x - i + half_size_x - 1,j]
-            elif value[1] == "left":
-                for i in range(self.img.size[0]):
-                    for j in range(self.img.size[1]):
-                        if i >= half_size_x:
-                            pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
-            else:
-                raise Exception("unknown argument")
-
-        elif value[0] == 'v':
-            half_size_y = self.img.size[1] // 2
-
-            if value[1] == "bottom":
-                for i in range(self.img.size[0]):
-                    for j in range(self.img.size[1]):
-                        if j <= half_size_y:
-                            pixels[i, j] = pixels[i,half_size_y - j + half_size_y]
-            elif value[1] == "top":
-                for i in range(self.img.size[0]):
-                    for j in range(self.img.size[1]):
-                        if j >= half_size_y:
-                            pixels[i, j] = pixels[i,half_size_y - (j - half_size_y)]
-            else:
-                raise Exception("unknown argument")
+        if value[1] == "right":
+            for i in range(self.img.size[0]):
+                for j in range(self.img.size[1]):
+                    if i <= half_size_x:
+                        pixels[i, j] = pixels[half_size_x - i + half_size_x - 1,j]
+        elif value[1] == "left":
+            for i in range(self.img.size[0]):
+                for j in range(self.img.size[1]):
+                    if i >= half_size_x:
+                        pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
+        elif value[1] == "bottom":
+            for i in range(self.img.size[0]):
+                for j in range(self.img.size[1]):
+                    if j <= half_size_y:
+                        pixels[i, j] = pixels[i,half_size_y - j + half_size_y]
+        elif value[1] == "top":
+            for i in range(self.img.size[0]):
+                for j in range(self.img.size[1]):
+                    if j >= half_size_y:
+                        pixels[i, j] = pixels[i,half_size_y - (j - half_size_y)]
         else:
             raise Exception("unknown argument")
 
