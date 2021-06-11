@@ -288,22 +288,22 @@ class Command:
         half_size_x = self.img.size[0] // 2
         half_size_y = self.img.size[1] // 2
 
-        if value == "right":
+        if value == "left":
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
                     if i <= half_size_x:
                         pixels[i, j] = pixels[half_size_x - i + half_size_x - 1,j]
-        elif value == "left":
+        elif value == "right":
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
                     if i >= half_size_x:
                         pixels[i, j] = pixels[half_size_x - (i - half_size_x),j]
-        elif value == "bottom":
+        elif value == "top":
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
                     if j <= half_size_y:
                         pixels[i, j] = pixels[i,half_size_y - j + half_size_y]
-        elif value == "top":
+        elif value == "bottom":
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
                     if j >= half_size_y:
