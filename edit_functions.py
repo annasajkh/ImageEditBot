@@ -20,7 +20,7 @@ for math_func in dir(math):
 
 for random_func in dir(random):
     if not "_" in random_func:
-        random_names[random_func] = getattr(math,random_func)
+        random_names[random_func] = getattr(random,random_func)
 
 def blend(img1, img2, alpha):
     img2 = img2.resize(img1.size)
