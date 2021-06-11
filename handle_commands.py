@@ -125,6 +125,7 @@ def handle(twitter, tweet, root_tweet, commands):
 
                 elif key == "mirror":
                     cmd.mirror(value)
+                    
                 elif key == "pixel":
                     cmd.pixel(value)
             
