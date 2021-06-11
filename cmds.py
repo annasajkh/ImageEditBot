@@ -398,3 +398,15 @@ class Command:
                                     half_size_y - value,
                                     half_size_x + value,
                                     half_size_y + value))
+    
+    def binary(self, value):
+        self.grayscale("true")
+        value = int(value)
+        pixels = self.img.load()
+        
+        for i in range(self.img.size[0]):
+                for j in range(self.img.size[1]):
+                    if pixels[i, j] >= value:
+                        pixels[i, j] = 255
+                    else:
+                        pixels[i, j] = 0

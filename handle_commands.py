@@ -7,12 +7,6 @@ from PIL import Image as PillImage
 
 
 
-keys = ["rotate", "crop", "blur", "flip", "text", "min", "contour",
-        "enhance", "emboss", "grayscale", "invert", "contrast", "solarize",
-        "edges", "repeat", "max", "median", "resize", "brightness", "blend",
-        "hue", "r","g","b", "wave", "glitch","mirror","pixel","square_crop"]
-
-
 def handle(twitter, tweet, root_tweet, commands):
     global value
     global key
@@ -57,7 +51,8 @@ def handle(twitter, tweet, root_tweet, commands):
                 "glitch": cmd.glitch,
                 "mirror": cmd.mirror,
                 "pixel": cmd.pixel,
-                "square_crop": cmd.square_crop
+                "square_crop": cmd.square_crop,
+                "binary":cmd.binary
             }
 
 
@@ -73,7 +68,7 @@ def handle(twitter, tweet, root_tweet, commands):
                 key = command[0].strip()
                 value = command[1].strip()
 
-                if not key in keys:
+                if not key in command_list.keys():
                     raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
                 
                 if "blend" in commands and len(commands) > 1:
