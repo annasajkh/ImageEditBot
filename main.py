@@ -3,7 +3,7 @@ from api import auth
 import tweepy
 import handle_commands
 from api import twitter
-import _thread
+
 
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
@@ -47,7 +47,6 @@ stream = tweepy.Stream(auth, listener=listener)
 
 while True:
     try:
-        _thread.start_new_thread(stream.filter,("@ImageEditBot"))
-        _thread.start_new_thread(stream.filter,("@ImageEditBot"))
+        stream.filter(track=["@ImageEditBot"],is_async=True)
     except Exception as e:
         print(e)
