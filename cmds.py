@@ -29,7 +29,7 @@ class Command:
         self.img = self.img.crop(  (value[0] / 100 * self.img[0], 
                                     value[1] / 100 * self.img[1], 
                                     value[2] / 100 * self.img[0], 
-                                    value[3] / 100 * self.img[0]))
+                                    value[3] / 100 * self.img[1]))
 
     def blur(self, value):
         try:
