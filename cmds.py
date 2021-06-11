@@ -397,5 +397,4 @@ class Command:
         self.img = self.img.crop((  value / half_size_x * (half_size_x - value),
                                     value / half_size_y * (half_size_y - value),
                                     value / half_size_x * (half_size_x + value),
-                                    value / half_size_y * (half_size_y + value))
-    
+                                    value / half_size_y * (half_size_y + value)))
