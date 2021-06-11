@@ -8,6 +8,38 @@ import urllib.request
 
 from PIL import Image as PillImage, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 
+value_global = ""
+
+#wrapper too avoid can't pickle error
+def modify_r(pixel):
+    return (int(simpleeval.simple_eval(html.unescape(value_global), names={
+                                        "r": pixel[0],
+                                        "g": pixel[1],
+                                        "b": pixel[2]
+                                        })),
+                                        pixel[1],
+                                        pixel[2])
+
+#wrapper too avoid can't pickle error
+def modify_g(pixel):
+    return (pixel[0],
+            int(simpleeval.simple_eval(html.unescape(value_global), names={
+                "r": pixel[0],
+                "g": pixel[1],
+                "b": pixel[2]
+            })),
+            pixel[2])
+
+#wrapper too avoid can't pickle error
+def mofify_b(pixel):
+    return (pixel[0],
+            pixel[1],
+            int(simpleeval.simple_eval(html.unescape(value_global), names={
+                "r": pixel[0],
+                "g": pixel[1],
+                "b": pixel[2]
+            })
+            ))
 
 class Command:
     def __init__(self, img, entities, twitter, tweet):
@@ -232,17 +264,15 @@ class Command:
                             auto_populate_reply_metadata=True)
     def r(self, value):
         #value = expression
+
+        global value_global
+
+        value_global = value
+
         list_of_pixels = list(self.img.getdata())
         pool = Pool(4)
-        new_list_of_pixels = pool.map(lambda pixel : 
-                                        (int(simpleeval.simple_eval(html.unescape(value), 
-                                        names = {
-                                        "r": pixel[0],
-                                        "g": pixel[1],
-                                        "b": pixel[2]
-                                        })),
-                                    pixel[1],
-                                    pixel[2]),list_of_pixels)
+        new_list_of_pixels = pool.map(modify_r,list_of_pixels)
+        print(new_list_of_pixels)
 
         pool.close()
         pool.join()
@@ -252,43 +282,34 @@ class Command:
     def g(self, value):
         #value = expression
 
-        pixels = self.img.load()
+        global value_global
 
-        for i in range(self.img.size[0]):
-            for j in range(self.img.size[1]):
+        value_global = value
 
-                if type(pixels[i, j]) == tuple:
-                    pixels[i, j] = (pixels[i, j][0],
-                                    int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "r": pixels[i, j][0],
-                                        "g": pixels[i, j][1],
-                                        "b": pixels[i, j][2]
-                                    })),
-                                    pixels[i, j][2])
-                else:
-                        pixels[i, j] = int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "g": pixels[i, j]
-                                    }))
+        list_of_pixels = list(self.img.getdata())
+        pool = Pool(4)
+        new_list_of_pixels = pool.map(modify_g,list_of_pixels)
+        print(new_list_of_pixels)
+
+        pool.close()
+        pool.join()
+        self.img.putdata(new_list_of_pixels)
+
     def b(self, value):
         #value = expression
-        pixels = self.img.load()
 
-        for i in range(self.img.size[0]):
-            for j in range(self.img.size[1]):
+        global value_global
 
-                if type(pixels[i, j]) == tuple:
-                    pixels[i, j] = (pixels[i, j][0],
-                                    pixels[i, j][1],
-                                    int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "r": pixels[i, j][0],
-                                        "g": pixels[i, j][1],
-                                        "b": pixels[i, j][2]
-                                    })
-                                    ))
-                else:
-                        pixels[i, j] = int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "b": pixels[i, j]
-                                    }))
+        value_global = value
+
+        list_of_pixels = list(self.img.getdata())
+        pool = Pool(4)
+        new_list_of_pixels = pool.map(modify_g,list_of_pixels)
+        print(new_list_of_pixels)
+
+        pool.close()
+        pool.join()
+        self.img.putdata(new_list_of_pixels)
 
     def hue(self, value):
         #value = number
