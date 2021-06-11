@@ -6,8 +6,12 @@ import math
 
 import math
 
-math_names, random_names = {
+math_names = {
 
+}
+
+random_names = {
+    
 }
 
 for math_func in dir(math):
