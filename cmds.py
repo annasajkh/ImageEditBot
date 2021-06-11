@@ -272,7 +272,6 @@ class Command:
         list_of_pixels = list(self.img.getdata())
         pool = Pool(4)
         new_list_of_pixels = pool.map(modify_r,list_of_pixels)
-        print(new_list_of_pixels)
 
         pool.close()
         pool.join()
@@ -289,7 +288,6 @@ class Command:
         list_of_pixels = list(self.img.getdata())
         pool = Pool(4)
         new_list_of_pixels = pool.map(modify_g,list_of_pixels)
-        print(new_list_of_pixels)
 
         pool.close()
         pool.join()
@@ -305,7 +303,6 @@ class Command:
         list_of_pixels = list(self.img.getdata())
         pool = Pool(4)
         new_list_of_pixels = pool.map(modify_g,list_of_pixels)
-        print(new_list_of_pixels)
 
         pool.close()
         pool.join()
