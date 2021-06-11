@@ -1,8 +1,12 @@
+from enum import Flag
 import re
 from api import auth
 import tweepy
 import handle_commands
 from api import twitter
+
+is_already_connected = False
+queues = []
 
 
 class Listener(tweepy.StreamListener):
@@ -39,14 +43,21 @@ class Listener(tweepy.StreamListener):
         if len(commands) < 1:
             return
 
-        handle_commands.handle(twitter, tweet, root_tweet, commands)
+        queues.append((twitter, tweet, root_tweet, commands))
 
 
 listener = Listener()
 stream = tweepy.Stream(auth, listener=listener)
 
+
 while True:
     try:
-        stream.filter(track=["@ImageEditBot"],is_async=True)
+        if not is_already_connected:
+            stream.filter(track=["@ImageEditBot"],is_async=True)
+            is_already_connected = True
+        else:
+            if not queues:
+                first = queues.pop(0)
+                handle_commands(first[0],first[1],first[2],first[3])
     except Exception as e:
         print(e)
