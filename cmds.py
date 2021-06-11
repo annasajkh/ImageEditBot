@@ -339,7 +339,7 @@ class Command:
         #value = true or false
         if not value == "true":
             try:
-                value = edit_functions.clamp(int(value), 0, 255)
+                value = edit_functions.clamp(int(value), -256, 256)
             except:
                 raise Exception("there is something wrong with glitch value")
 
@@ -350,7 +350,7 @@ class Command:
 
             self.img = PillImage.fromarray(arr)
         else:
-            self.img = self.img.point(lambda x : random.randint(0, 256))
+            self.img = self.img.point(lambda x : random.randint(-256, 256))
     
     def mirror(self,value):
         #value = right or left or top or bottom
@@ -385,8 +385,13 @@ class Command:
 
     def pixel(self, value):
         #value = expression
+
         self.img = self.img.point(lambda pixel: int(simpleeval.simple_eval(html.unescape(value), 
-                                        names={"pixel": pixel}.update(edit_functions.names))))
+                                        names={
+                                            "pixel":pixel,
+                                            "math":edit_functions.math_names,
+                                            "random":edit_functions.random_names
+                                            })))
 
     def square_crop(self, value):
         # value = number
