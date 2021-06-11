@@ -3,6 +3,7 @@ import random
 import numpy
 import simpleeval
 import edit_functions
+from multiprocessing import Pool
 import urllib.request
 
 from PIL import Image as PillImage, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
@@ -231,23 +232,22 @@ class Command:
                             auto_populate_reply_metadata=True)
     def r(self, value):
         #value = expression
+        list_of_pixels = list(self.img.getdata())
+        pool = Pool(4)
+        new_list_of_pixels = pool.map(lambda pixel : 
+                                        (int(simpleeval.simple_eval(html.unescape(value), 
+                                        names = {
+                                        "r": pixel[0],
+                                        "g": pixel[1],
+                                        "b": pixel[2]
+                                        })),
+                                    pixel[1],
+                                    pixel[2]),list_of_pixels)
 
-        pixels = self.img.load()
+        pool.close()
+        pool.join()
+        self.img.putdata(new_list_of_pixels)
 
-        for i in range(self.img.size[0]):
-            for j in range(self.img.size[1]):
-                if type(pixels[i, j]) == tuple:
-                    pixels[i, j] = (int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "r": pixels[i, j][0],
-                                        "g": pixels[i, j][1],
-                                        "b": pixels[i, j][2]
-                                    })),
-                                    pixels[i, j][1],
-                                    pixels[i, j][2])
-                else:
-                        pixels[i, j] = int(simpleeval.simple_eval(html.unescape(value), names={
-                                        "r": pixels[i, j]
-                                    }))
     
     def g(self, value):
         #value = expression
