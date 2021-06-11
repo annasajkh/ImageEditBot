@@ -181,7 +181,7 @@ class Command:
         for i in range(self.img.size[0]):
             for j in range(self.img.size[1]):
                 if type(pixels[i, j]) == tuple:
-                    pixels[i, j] = int((simpleeval.simple_eval(html.unescape(value), names={
+                    pixels[i, j] = (int(simpleeval.simple_eval(html.unescape(value), names={
                                         "r": pixels[i, j][0],
                                         "g": pixels[i, j][1],
                                         "b": pixels[i, j][2]
@@ -225,7 +225,6 @@ class Command:
                                         "g": pixels[i, j][1],
                                         "b": pixels[i, j][2]
                                     })
-                                    
                                     ))
                 else:
                         pixels[i, j] = int(simpleeval.simple_eval(html.unescape(value), names={
