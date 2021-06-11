@@ -47,7 +47,7 @@ stream = tweepy.Stream(auth, listener=listener)
 
 while True:
     try:
-        _thread.start_new_thread(stream.filter,(["@ImageEditBot"]))
-        _thread.start_new_thread(stream.filter,(["@ImageEditBot"]))
+        _thread.start_new_thread(stream.filter,("@ImageEditBot"))
+        _thread.start_new_thread(stream.filter,("@ImageEditBot"))
     except Exception as e:
         print(e)
