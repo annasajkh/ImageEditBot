@@ -385,7 +385,8 @@ class Command:
 
     def pixel(self, value):
         #value = expression
-        self.img = self.img.point(lambda pixel: int(simpleeval.simple_eval(html.unescape(value), names={"pixel": pixel})))
+        self.img = self.img.point(lambda pixel: int(simpleeval.simple_eval(html.unescape(value), 
+                                        names={"pixel": pixel}.update(edit_functions.names))))
 
     def square_crop(self, value):
         # value = number

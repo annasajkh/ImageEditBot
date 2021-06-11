@@ -1,6 +1,18 @@
 from typing import List
 from PIL import Image as PillImage
+import math
 
+
+import math
+
+names = {
+
+}
+
+
+for math_func in dir(math):
+    if not "_" in math_func:
+        names[math_func] = getattr(math,math_func)
 
 def blend(img1, img2, alpha):
     img2 = img2.resize(img1.size)
