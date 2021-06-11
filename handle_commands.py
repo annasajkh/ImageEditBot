@@ -39,7 +39,7 @@ def handle(twitter, tweet, root_tweet, commands):
                 value = command[1].strip()
 
                 if not key in keys:
-                    raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.md")
+                    raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
                 
                 if "blend" in commands and len(commands) > 1:
                     raise Exception("blend cannot be chain with other command")
