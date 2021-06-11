@@ -56,7 +56,7 @@ while True:
             stream.filter(track=["@ImageEditBot"],is_async=True)
             is_already_connected = True
         else:
-            if not queues:
+            if queues:
                 first = queues.pop(0)
                 handle_commands(first[0],first[1],first[2],first[3])
     except Exception as e:
