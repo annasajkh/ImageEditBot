@@ -356,7 +356,7 @@ class Command:
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
                     if j <= half_size_y:
-                        pixels[i, j] = pixels[i,half_size_y - j + half_size_y]
+                        pixels[i, j] = pixels[i,half_size_y - j + half_size_y - 1]
         elif value == "bottom":
             for i in range(self.img.size[0]):
                 for j in range(self.img.size[1]):
