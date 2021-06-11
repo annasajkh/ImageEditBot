@@ -5,6 +5,8 @@ import os
 
 from PIL import Image as PillImage
 
+
+
 keys = ["rotate", "crop", "blur", "flip", "text", "min", "contour",
         "enhance", "emboss", "grayscale", "invert", "contrast", "solarize",
         "edges", "repeat", "max", "median", "resize", "brightness", "blend",
@@ -26,6 +28,39 @@ def handle(twitter, tweet, root_tweet, commands):
 
             cmd : cmds.Command = cmds.Command(PillImage.open("img.png").convert("RGB"), entities, twitter, tweet)
 
+            command_list = {
+                "rotate": cmd.rotate,
+                "crop": cmd.crop,
+                "blur": cmd.blur,
+                "flip": cmd.flip,
+                "text": cmd.text,
+                "min": cmd.min,
+                "contour": cmd.contour,
+                "enhance": cmd.enhance,
+                "emboss": cmd.emboss,
+                "grayscale": cmd.grayscale,
+                "invert": cmd.invert,
+                "contrast": cmd.contrast,
+                "solarize": cmd.solarize,
+                "edges": cmd.edges,
+                "repeat": cmd.repeat,
+                "max": cmd.max,
+                "median": cmd.median,
+                "resize": cmd.resize,
+                "brightness": cmd.brightness,
+                "blend": cmd.blend,
+                "hue": cmd.hue,
+                "r": cmd.r,
+                "g": cmd.g,
+                "b": cmd.b,
+                "wave": cmd.wave,
+                "glitch": cmd.glitch,
+                "mirror": cmd.mirror,
+                "pixel": cmd.pixel,
+                "square_crop": cmd.square_crop
+            }
+
+
             for command in commands:
                 if not "=" in command:
                     continue
@@ -43,94 +78,8 @@ def handle(twitter, tweet, root_tweet, commands):
                 
                 if "blend" in commands and len(commands) > 1:
                     raise Exception("blend cannot be chain with other command")
-
-                if key == "rotate":
-                    cmd.rotate(value)
-
-                elif key == "crop":
-                    cmd.crop(value)
-
-                elif key == "blur":
-                    cmd.blur(value)
-
-                elif key == "flip":
-                    cmd.flip(value)
-
-                elif key == "text":
-                    cmd.text(value)
-
-                elif key == "min":
-                    cmd.min(value)
-
-                elif key == "contour":
-                    cmd.contour(value)
-
-                elif key == "enhance":
-                    cmd.enhance(value)
-
-                elif key == "emboss":
-                    cmd.emboss(value)
-
-                elif key == "grayscale":
-                    cmd.grayscale(value)
-
-                elif key == "invert":
-                    cmd.invert(value)
-
-                elif key == "contrast":
-                    cmd.contrast(value)
-
-                elif key == "solarize":
-                    cmd.solarize(value)
-
-                elif key == "edges":
-                    cmd.edges(value)
-
-                elif key == "repeat":
-                    cmd.repeat(value)
-
-                elif key == "max":
-                    cmd.max(value)
-
-                elif key == "median":
-                    cmd.median(value)
-                    
-                elif key == "resize":
-                    cmd.resize(value)
-                    
-                elif key == "brightness":
-                    cmd.brightness(value)
-
-                elif key == "blend":
-                    cmd.blend(value)
-
-                    return
-                elif key == "r":
-                    cmd.r(value)
-
-                elif key == "g":
-                    cmd.g(value)
-
-                elif key == "b":
-                    cmd.b(value)
-
-                elif key == "hue":
-                    cmd.hue(value)
-
-                elif key == "wave":
-                    cmd.wave(value)
-                    
-                elif key == "glitch":
-                    cmd.glitch(value)
-
-                elif key == "mirror":
-                    cmd.mirror(value)
-                    
-                elif key == "pixel":
-                    cmd.pixel(value)
                 
-                elif key == "square_crop":
-                    cmd.square_crop(value)
+                command_list[key](value)
             
             cmd.img.save("img.png")
             res = twitter.media_upload("img.png")
