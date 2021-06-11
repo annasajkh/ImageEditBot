@@ -51,8 +51,6 @@ listener = Listener()
 stream = tweepy.Stream(auth, listener=listener)
 
 
-
-
 while True:
     try:
         stream.filter(track=["@ImageEditBot"],is_async=True)
