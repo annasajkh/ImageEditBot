@@ -386,3 +386,13 @@ class Command:
     def pixel(self, value):
         #value = expression
         self.img = self.img.point(lambda pixel: int(simpleeval.simple_eval(html.unescape(value), names={"pixel": pixel})))
+
+    def square_crop(self, value):
+        # value = number
+        value = int(value)
+
+        half_size_x = self.img.size[0] // 2
+        half_size_y = self.img.size[1] // 2
+
+        self.img = self.img.crop(half_size_x - value,half_size_y - value,half_size_x + value,half_size_y + value)
+    

@@ -8,7 +8,7 @@ from PIL import Image as PillImage
 keys = ["rotate", "crop", "blur", "flip", "text", "min", "contour",
         "enhance", "emboss", "grayscale", "invert", "contrast", "solarize",
         "edges", "repeat", "max", "median", "resize", "brightness", "blend",
-        "hue", "r","g","b", "wave", "glitch","mirror","pixel"]
+        "hue", "r","g","b", "wave", "glitch","mirror","pixel","square_crop"]
 
 
 def handle(twitter, tweet, root_tweet, commands):
@@ -128,6 +128,9 @@ def handle(twitter, tweet, root_tweet, commands):
                     
                 elif key == "pixel":
                     cmd.pixel(value)
+                
+                elif key == "square_crop":
+                    cmd.square_crop(value)
             
             cmd.img.save("img.png")
             res = twitter.media_upload("img.png")
