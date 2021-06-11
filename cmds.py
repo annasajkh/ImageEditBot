@@ -31,7 +31,7 @@ def modify_g(pixel):
             pixel[2])
 
 #wrapper too avoid can't pickle error
-def mofify_b(pixel):
+def modify_b(pixel):
     return (pixel[0],
             pixel[1],
             int(simpleeval.simple_eval(html.unescape(value_global), names={
@@ -302,7 +302,7 @@ class Command:
 
         list_of_pixels = list(self.img.getdata())
         pool = Pool(4)
-        new_list_of_pixels = pool.map(modify_g,list_of_pixels)
+        new_list_of_pixels = pool.map(modify_b,list_of_pixels)
 
         pool.close()
         pool.join()
