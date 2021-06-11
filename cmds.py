@@ -26,6 +26,11 @@ class Command:
     def crop(self,value):
         value = edit_functions.to_array(value, 4)
 
+        value[0] = edit_functions.clamp(int(value),0,100)
+        value[1] = edit_functions.clamp(int(value),0,100)
+        value[2] = edit_functions.clamp(int(value),0,100)
+        value[3] = edit_functions.clamp(int(value),0,100)
+
         self.img = self.img.crop(  (value[0] / 100 * self.img.size[0], 
                                     value[1] / 100 * self.img.size[1], 
                                     value[2] / 100 * self.img.size[0], 
