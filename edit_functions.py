@@ -18,6 +18,7 @@ def to_array(value, min_length):
         raise Exception("not enough arguments")
     
     try:
+        #loop each list of string and convert it to int
         for i in range(len(value)):
             value[i] = value[i].strip()
             value[i] = int(value[i])

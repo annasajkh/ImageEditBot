@@ -17,20 +17,29 @@ class Command:
     
     def rotate(self, value):
         try:
+            # convert value to int and clamp it between -360 -> 360
             value = edit_functions.clamp(int(value), -360, 360)
         except:
             raise Exception("there is something wrong with rotate value")
         
         self.img = self.img.rotate(value,expand=True)
     
+    def crop_square(self, value):
+        value = int(value)
+
+
+    
     def crop(self,value):
+        #convert value;value;value;value -> [value,value,value,value]
         value = edit_functions.to_array(value, 4)
 
+        #convert all value array to int and clamp it between 0 - 100
         value[0] = edit_functions.clamp(int(value[0]),0,100)
         value[1] = edit_functions.clamp(int(value[1]),0,100)
         value[2] = edit_functions.clamp(int(value[2]),0,100)
         value[3] = edit_functions.clamp(int(value[3]),0,100)
 
+        #calculate percentages x,y,width,height
         self.img = self.img.crop(  (value[0] / 100 * self.img.size[0], 
                                     value[1] / 100 * self.img.size[1], 
                                     value[2] / 100 * self.img.size[0], 
@@ -38,6 +47,8 @@ class Command:
 
     def blur(self, value):
         try:
+            #value = number
+            # convert value to int and clamp it between -0 - 100
             value = edit_functions.clamp(int(value), 0, 100)
         except:
             raise Exception("there is something wrong with blur value")
@@ -45,13 +56,18 @@ class Command:
         self.img = self.img.filter(ImageFilter.GaussianBlur(value))
     
     def flip(self, value):
+        #value = true or false
+
         if value == "h":
             self.img = self.img.transpose(PillImage.FLIP_LEFT_RIGHT)
         elif value == "v":
             self.img = self.img.transpose(PillImage.FLIP_TOP_BOTTOM)
         else:
             raise Exception("unknown argument")
+        
     def text(self, value):
+        #value = string;number;number;number
+
         value = value.split(";")
 
         try:
@@ -65,6 +81,8 @@ class Command:
         draw.text((value[1], value[2]), value[0], (255,255,255),font=ImageFont.truetype("arial.ttf", value[3]))
 
     def min(self, value):
+        #value = number
+
         try:
             value = edit_functions.clamp(int(value), 0, 17)
         except:
@@ -73,12 +91,16 @@ class Command:
         self.img = self.img.filter(ImageFilter.MinFilter(value))
     
     def contour(self, value):
+        #value = true or false
+
         if not value == "true":
             return
         
         self.img = self.img.filter(ImageFilter.CONTOUR)
     
     def enhance(self, value):
+        #value = true or false
+
         if not value == "true":
             return
         
@@ -86,24 +108,32 @@ class Command:
 
     
     def emboss(self, value):
+        #value = true or false
+
         if not value == "true":
             return
         
         self.img = self.img.filter(ImageFilter.EMBOSS)
     
     def grayscale(self, value):
+        #value = true or false
+
         if not value == "true":
             return
     
         self.img = ImageOps.grayscale(self.img)
     
     def invert(self, value):
+        #value = true or false
+
         if not value == "true":
             return
         
         self.img = ImageOps.invert(self.img)
 
     def contrast(self, value):
+        #value = number
+
         try:
             value = edit_functions.clamp(int(value), -1000, 1000)
         except:
@@ -112,6 +142,8 @@ class Command:
         self.img = edit_functions.change_contrast(self.img, value)
     
     def solarize(self, value):
+        #value = number
+
         try:
             value = edit_functions.clamp(int(value), -100, 100)
         except:
@@ -120,18 +152,24 @@ class Command:
         self.img = ImageOps.solarize(self.img, value)
     
     def edges(self, value):
+        #value = true or false
+
         if not value == "true":
             return
 
         self.img = self.img.filter(ImageFilter.FIND_EDGES)
     
     def repeat(self, value):
+        #value = number;number
+
         value = edit_functions.to_array(value, 2)
 
         self.img = self.img.resize((self.img.width // value[0], self.img.height // value[1]))
         self.img = edit_functions.get_concat_tile_repeat(self.img, value[0], value[1])
     
     def max(self, value):
+        #value = number
+
         try:
             value = int(value)
         except:
@@ -140,6 +178,8 @@ class Command:
         self.img = self.img.filter(ImageFilter.MaxFilter(value))
     
     def median(self, value):
+        #value = number
+
         try:
             value = int(value)
         except:
@@ -148,11 +188,15 @@ class Command:
         self.img = self.img.filter(ImageFilter.MedianFilter(value))
     
     def resize(self, value):
+        #value = number;number
+
         value = edit_functions.to_array(value, 2)
 
         self.img = self.img.resize((edit_functions.clamp(value[0], 1, 8192), edit_functions.clamp(value[1], 1, 8192)))
     
     def brightness(self, value):
+        #value = number
+
         try:
             value = int(value)
         except:
@@ -163,6 +207,8 @@ class Command:
         self.img = applier.enhance(value)
     
     def blend(self, value):
+        #value = number
+
         try:
             value = float(value)
         except:
@@ -184,6 +230,8 @@ class Command:
         self.twitter.update_status(media_ids=[r.media_id], in_reply_to_status_id=self.tweet.id,
                             auto_populate_reply_metadata=True)
     def r(self, value):
+        #value = expression
+
         pixels = self.img.load()
 
         for i in range(self.img.size[0]):
@@ -202,6 +250,8 @@ class Command:
                                     }))
     
     def g(self, value):
+        #value = expression
+
         pixels = self.img.load()
 
         for i in range(self.img.size[0]):
@@ -220,6 +270,7 @@ class Command:
                                         "g": pixels[i, j]
                                     }))
     def b(self, value):
+        #value = expression
         pixels = self.img.load()
 
         for i in range(self.img.size[0]):
@@ -240,6 +291,7 @@ class Command:
                                     }))
 
     def hue(self, value):
+        #value = number
         try:
             value = int(value)
         except:
@@ -251,6 +303,7 @@ class Command:
         self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
 
     def wave(self, value):
+        #value = number;number
         value = edit_functions.to_array(value, 2)
 
         A = self.img.width / value[1]
@@ -265,6 +318,7 @@ class Command:
         self.img = PillImage.fromarray(arr)
 
     def glitch(self, value):
+        #value = true or false
         if not value == "true":
             try:
                 value = edit_functions.clamp(int(value), 0, 255)
@@ -281,7 +335,7 @@ class Command:
             self.img = self.img.point(lambda x : random.randint(0, 256))
     
     def mirror(self,value):
-        #value = right or left or top orbottom
+        #value = right or left or top or bottom
 
         pixels = self.img.load()
 
@@ -312,4 +366,5 @@ class Command:
             raise Exception("unknown argument")
 
     def pixel(self, value):
+        #value = expression
         self.img = self.img.point(lambda pixel: int(simpleeval.simple_eval(html.unescape(value), names={"pixel": pixel})))
