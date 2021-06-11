@@ -43,7 +43,6 @@ class Listener(tweepy.StreamListener):
         if len(commands) < 1:
             return
         
-        print(commands)
         queues.append((twitter, tweet, root_tweet, commands))
 
 
