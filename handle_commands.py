@@ -8,7 +8,7 @@ from PIL import Image as PillImage
 keys = ["rotate", "crop", "blur", "flip", "text", "min", "contour",
         "enhance", "emboss", "grayscale", "invert", "contrast", "solarize",
         "edges", "repeat", "max", "median", "resize", "brightness", "blend",
-        "hue", "r","g","b", "wave", "glitch","mirror"]
+        "hue", "r","g","b", "wave", "glitch","mirror","pixel"]
 
 
 def handle(twitter, tweet, root_tweet, commands):
@@ -122,9 +122,12 @@ def handle(twitter, tweet, root_tweet, commands):
                     
                 elif key == "glitch":
                     cmd.glitch(value)
+
                 elif key == "mirror":
                     cmd.mirror(value)
-
+                elif key == "pixel":
+                    cmd.pixel(value)
+            
             cmd.img.save("img.png")
             res = twitter.media_upload("img.png")
 

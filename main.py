@@ -1,4 +1,3 @@
-from enum import Flag
 import re
 from api import auth
 import tweepy

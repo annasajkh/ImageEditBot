@@ -5,7 +5,6 @@ import simpleeval
 import edit_functions
 import urllib.request
 
-from typing import Tuple
 from PIL import Image as PillImage, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 
 
@@ -22,7 +21,7 @@ class Command:
         except:
             raise Exception("there is something wrong with rotate value")
         
-        self.img = self.img.rotate(value)
+        self.img = self.img.rotate(value,expand=True)
     
     def crop(self,value):
         value = edit_functions.to_array(value, 4)
@@ -314,3 +313,6 @@ class Command:
                 raise Exception("unknown argument")
         else:
             raise Exception("unknown argument")
+
+    def pixel(self, value):
+        self.img = self.img.point(lambda pixel: simpleeval.simple_eval(html.unescape(value), names={"pixel": pixel}))
