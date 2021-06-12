@@ -52,7 +52,8 @@ def handle(twitter, tweet, root_tweet, commands):
                 "mirror": cmd.mirror,
                 "pixel": cmd.pixel,
                 "square_crop": cmd.square_crop,
-                "binary":cmd.binary
+                "binary":cmd.binary,
+                "light": cmd.light
             }
 
 

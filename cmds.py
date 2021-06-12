@@ -3,6 +3,7 @@ import random
 import numpy
 import simpleeval
 import edit_functions
+import math
 from multiprocessing import Pool
 import urllib.request
 
@@ -416,3 +417,25 @@ class Command:
                         pixels[i, j] = 255
                     else:
                         pixels[i, j] = 0
+
+    def light(self,value):
+        value = int(value)
+
+        max_radius = self.img.width if self.img.width < self.img.height else self.img.height
+        img = self.img.load()
+        center = (self.img.width // 2, self.img.height // 2)
+
+        max_x = abs(max_radius - center[0])
+        max_y = abs(max_radius - center[1])
+
+
+        max_distance = math.sqrt(max_x * max_x + max_y * max_y)
+
+        for i in range(self.img.width):
+            for j in range(self.img.height):
+
+                x = abs(i - center[0])
+                y = abs(j - center[1])
+
+                distance = math.sqrt(x * x + y * y)
+                img[i ,j] = tuple(map(lambda x : int(x * (1 - (distance / max_distance * value)) * 3), img[i ,j]))
