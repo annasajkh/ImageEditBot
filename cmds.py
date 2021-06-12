@@ -59,9 +59,6 @@ class Command:
             raise Exception("there is something wrong with rotate value")
         
         self.img = self.img.rotate(value,expand=True)
-    
-    def crop_square(self, value):
-        value = int(value)
 
 
     
