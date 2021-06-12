@@ -10,7 +10,7 @@ from PIL import Image as PillImage, ImageFilter, ImageFont, ImageDraw, ImageOps,
 
 value_global = ""
 
-#wrapper too avoid can't pickle error
+#wrapper to avoid can't pickle error
 def modify_r(pixel):
     return (int(simpleeval.simple_eval(html.unescape(value_global), names={
                                         "r": pixel[0],
@@ -21,7 +21,7 @@ def modify_r(pixel):
                                         pixel[1],
                                         pixel[2])
 
-#wrapper too avoid can't pickle error
+#wrapper to avoid can't pickle error
 def modify_g(pixel):
     return (pixel[0],
             int(simpleeval.simple_eval(html.unescape(value_global), names={
@@ -32,7 +32,7 @@ def modify_g(pixel):
             })),
             pixel[2])
 
-#wrapper too avoid can't pickle error
+#wrapper to avoid can't pickle error
 def modify_b(pixel):
     return (pixel[0],
             pixel[1],
@@ -334,6 +334,7 @@ class Command:
             arr[:, i] = numpy.roll(arr[:, i], int(shift(i)))
 
         self.img = PillImage.fromarray(arr)
+
 
     def glitch(self, value):
         #value = true or false
