@@ -54,6 +54,5 @@ while True:
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except Exception as e:
         if queues:
-            print("detecting")
             first = queues.pop(0)
             handle_commands.handle(first[0],first[1],first[2],first[3])
