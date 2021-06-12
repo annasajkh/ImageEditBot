@@ -419,7 +419,7 @@ class Command:
                         pixels[i, j] = 0
 
     def light(self,value):
-        value = int(value)
+        value = float(value)
 
         max_radius = self.img.width if self.img.width < self.img.height else self.img.height
         img = self.img.load()
