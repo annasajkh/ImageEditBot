@@ -15,7 +15,8 @@ def modify_r(pixel):
     return (int(simpleeval.simple_eval(html.unescape(value_global), names={
                                         "r": pixel[0],
                                         "g": pixel[1],
-                                        "b": pixel[2]
+                                        "b": pixel[2],
+                                        "math":edit_functions.math_names
                                         })),
                                         pixel[1],
                                         pixel[2])
@@ -26,7 +27,8 @@ def modify_g(pixel):
             int(simpleeval.simple_eval(html.unescape(value_global), names={
                 "r": pixel[0],
                 "g": pixel[1],
-                "b": pixel[2]
+                "b": pixel[2],
+                "math":edit_functions.math_names
             })),
             pixel[2])
 
@@ -37,7 +39,8 @@ def modify_b(pixel):
             int(simpleeval.simple_eval(html.unescape(value_global), names={
                 "r": pixel[0],
                 "g": pixel[1],
-                "b": pixel[2]
+                "b": pixel[2],
+                "math":edit_functions.math_names
             })
             ))
 
