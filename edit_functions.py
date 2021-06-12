@@ -1,4 +1,3 @@
-import random
 from typing import List
 from PIL import Image as PillImage
 import math
