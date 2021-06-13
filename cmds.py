@@ -2,6 +2,7 @@ import html
 import random
 import numpy as np
 import numexpr as ne
+import simpleeval
 import math
 from multiprocessing import Pool
 import urllib.request
@@ -103,7 +104,7 @@ def impact(value, img):
     toptext;bottomtext
     """
 
-    values = args_to_array(value, 1)
+    values = args_to_array(value)
 
     top_text = values[0]
     bottom_text = values[1] if len(values) != 1 else None
@@ -352,4 +353,4 @@ commands_list = {
     "contrast": contrast,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100)
-    }
+}

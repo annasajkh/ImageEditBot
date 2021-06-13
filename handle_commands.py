@@ -19,6 +19,8 @@ def handle(twitter, tweet, root_tweet, commands):
         for media in entities:
             urllib.request.urlretrieve(media["media_url"], "img.png")
 
+            img = Image.open("img.png")
+            
             for command in commands:
 
                 if not "=" in command:
@@ -35,7 +37,6 @@ def handle(twitter, tweet, root_tweet, commands):
                 if not key in commands_list.keys():
                     raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
                 
-                img = Image.open('img.png')
                 img = commands_list[key](value, img)
             
             img.save("img.png")
