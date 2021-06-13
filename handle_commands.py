@@ -20,12 +20,6 @@ def handle(twitter, tweet, root_tweet, commands):
             urllib.request.urlretrieve(media["media_url"], "img.png")
 
             for command in commands:
-                print(command)
-                print(command)
-                print(command)
-                print(command)
-                print(command)
-                print(command)
 
                 if not "=" in command:
                     continue
