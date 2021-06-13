@@ -12,10 +12,6 @@ def draw_caption_text(x, y, border_size, caption, font, draw):
     text_color = (255, 255, 255)
 
     # Draw the border
-    #draw.text((x-border_size, y), caption, fill=border_color, font=font)
-    #draw.text((x+border_size, y), caption, fill=border_color, font=font)
-    #draw.text((x, y-border_size), caption, fill=border_color, font=font)
-    #draw.text((x, y+border_size), caption, fill=border_color, font=font)
     draw.text((x-border_size, y-border_size), caption, font=font, fill=border_color)
     draw.text((x+border_size, y-border_size), caption, font=font, fill=border_color)
     draw.text((x-border_size, y+border_size), caption, font=font, fill=border_color)
