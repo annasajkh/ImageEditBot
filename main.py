@@ -32,7 +32,7 @@ class Listener(tweepy.StreamListener):
 
         text = re.sub("@[^\s]+", "", tweet.text)
         text = re.sub("https://[^\s]+", "", text)
-        text = re.sub("\n", "", text.lower())
+        text = re.sub("\n", "", text)
 
         if not "=" in text:
             return
