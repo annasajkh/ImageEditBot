@@ -21,7 +21,12 @@ def handle(twitter, tweet, root_tweet, commands):
 
             for command in commands:
                 print(command)
-                
+                print(command)
+                print(command)
+                print(command)
+                print(command)
+                print(command)
+
                 if not "=" in command:
                     continue
 
