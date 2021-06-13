@@ -11,26 +11,37 @@ class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
         global root_tweet
 
-        # if it is not a comment then it is the root tweet
+        # if there is no in_reply_to_status_id_str the it's not a comment
         if tweet.in_reply_to_status_id_str == None:
             root_tweet = tweet
         else:
+            """
+            if it's a comment then the root tweet must be above it
+            in_reply_to_status_id_str is the id of above tweet
+            """
+
             root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
+
+
             if "media" in tweet.entities:
                 for media in tweet.extended_entities["media"]:
                     url = media["media_url"]
+
+                    # if root tweet is not media or a gif then use it
                     if not "http://pbs.twimg.com/tweet_video_thumb/" in url and not "http://pbs.twimg.com/ext_tw_video_thumb/" in url:
                         root_tweet = tweet
 
         if "media" in root_tweet.entities:
+            # loop each media
             for media in root_tweet.extended_entities["media"]:
                 url = media["media_url"]
+                # if it's a video or a gif then return
                 if "http://pbs.twimg.com/tweet_video_thumb/" in url or "http://pbs.twimg.com/ext_tw_video_thumb/" in url:
                     return
         else:
             return
 
-        # remove junk
+        # remove mentions, links, and \n
         text = re.sub("@[^\s]+", "", tweet.text)
         text = re.sub("https://[^\s]+", "", text)
         text = re.sub("\n", "", text)
@@ -54,16 +65,16 @@ stream = tweepy.Stream(auth, listener=listener)
 while True:
     try:
         """
-        this will throw exception when other thread is already running
-        we can take advantage of that and we will know when other thread is already running
-        or not
+        when it enter the loop it will streaming twitter and when it enter the loop
+        for the second time it will raise an exception and by doing that we will know
+        if other thread is already running or not
         """
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except Exception as e:
         """
-        when there is an exception aka when other thread is already running then remove first item
+        when there is an exception aka when stream thread is already running then remove first item
         from the queues and procees the commands and if the bot is processing the command
-        and you call it it will add it to the queues
+        and you call it it will add it to the queues from the stream thread
         """
         if queues:
             first = queues.pop(0)
