@@ -35,7 +35,7 @@ def handle(twitter, tweet, root_tweet, commands):
                     raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
                 
                 img = Image.open('img.png')
-                commands_list[key](value, img)
+                img = commands_list[key](value, img)
             
             img.save("img.png")
             res = twitter.media_upload("img.png")

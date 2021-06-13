@@ -103,7 +103,7 @@ def impact(value, img):
     toptext;bottomtext
     """
 
-    values = args_to_array(value)
+    values = args_to_array(value, 1)
 
     top_text = values[0]
     bottom_text = values[1] if len(values) != 1 else None
