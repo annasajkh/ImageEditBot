@@ -1,3 +1,5 @@
+import numpy as np
+
 """Generates impact font memes"""
 from PIL import Image, ImageFont, ImageDraw
 
