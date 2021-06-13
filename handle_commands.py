@@ -17,6 +17,7 @@ def handle(twitter, tweet, root_tweet, commands):
     try:
 
         for media in entities:
+            #download images
             urllib.request.urlretrieve(media["media_url"], "img.png")
 
             img = Image.open("img.png")
@@ -28,15 +29,18 @@ def handle(twitter, tweet, root_tweet, commands):
 
                 command = command.split("=")
 
+                # if there is no value like 'rotate= ' then ignore it
                 if len(command) < 2:
                     continue
 
+                # get key and value
                 key = command[0].strip()
                 value = command[1].strip()
 
                 if not key in commands_list.keys():
                     raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
                 
+                # apply the function 
                 img = commands_list[key](value, img)
             
             img.save("img.png")
@@ -44,7 +48,8 @@ def handle(twitter, tweet, root_tweet, commands):
 
             if not res == "":
                 media_ids.append(res.media_id)
-                
+        
+        #if there is at least one image succesfully uploaded then delete the image from storage
         if not len(media_ids) == 0:
             for img_path in glob.glob("*.png"):
                 os.remove(img_path)
@@ -53,11 +58,12 @@ def handle(twitter, tweet, root_tweet, commands):
     except Exception as e:
         string = str(e)
 
-        if (len(string) > 270):
-            string = string[0:270]
+        #if the error message is larger than 280 charcter then crop it
+        if (len(string) > 280):
+            string = string[0:280]
         
         try:
+            # try sending error messages
             twitter.update_status(f"@{tweet.user.screen_name} {string}", in_reply_to_status_id=tweet.id)
-        
         except Exception as e:
             print(e)

@@ -95,7 +95,6 @@ def flip(value, img):
         return img.transpose(Image.FLIP_TOP_BOTTOM)
     else:
         raise Exception("Argument error for flip")
-        return
         
 
 def impact(value, img):

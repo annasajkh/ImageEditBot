@@ -27,7 +27,7 @@ class Listener(tweepy.StreamListener):
                 for media in tweet.extended_entities["media"]:
                     url = media["media_url"]
 
-                    # if root tweet is not media or a gif then use it
+                    # if root_tweet is a video or a gif then use the original tweet
                     if not "http://pbs.twimg.com/tweet_video_thumb/" in url and not "http://pbs.twimg.com/ext_tw_video_thumb/" in url:
                         root_tweet = tweet
 
