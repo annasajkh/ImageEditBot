@@ -3,7 +3,7 @@ from PIL import Image, ImageFont, ImageDraw
 
 def get_font(image):
     """Create font with dynamic size"""
-    font_size = int(image.width / 12)
+    font_size = int(image.width / 8)
     return ImageFont.truetype("impact.ttf", size=font_size)
 
 def draw_caption_text(x, y, border_size, caption, font, draw):

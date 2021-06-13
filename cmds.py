@@ -333,7 +333,7 @@ def lambda_function_adv(func, minval, maxval):
 #################
 
 commands_list = {
-    "rotate": lambda value, img : img.rotate(value, expand=True),
+    "rotate": lambda value, img : img.rotate(int(value), expand=True),
 
     "contour": lambda_filter(ImageFilter.CONTOUR),
     "enhance": lambda_filter(ImageFilter.EDGE_ENHANCE_MORE),
