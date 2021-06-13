@@ -6,6 +6,7 @@ import simpleeval
 import math
 from multiprocessing import Pool
 import urllib.request
+import edit_functions
 
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 
