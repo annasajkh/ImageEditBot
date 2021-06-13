@@ -2,7 +2,6 @@ import html
 import random
 import numpy as np
 import numexpr as ne
-import simpleeval
 import math
 from multiprocessing import Pool
 import urllib.request
