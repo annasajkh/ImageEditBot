@@ -37,7 +37,7 @@ def handle(twitter, tweet, root_tweet, commands):
                 img = Image.open('img.png')
                 commands_list[key](value, img)
             
-            cmd.img.save("img.png")
+            img.save("img.png")
             res = twitter.media_upload("img.png")
 
             if not res == "":
