@@ -402,9 +402,11 @@ def move(value, img):
     if value[0] == "h":
         for i in range(img.width):
             img_arr[i,:] = np.roll(img_arr[i,:],int(value[1].strip()),0)
+
     elif value[0] == "v":
         for i in range(img.height):
             img_arr[:,i] = np.roll(img_arr[:, i],int(value[1].strip()),0)
+        
     else:
         raise Exception("Argument error for flip")
     
