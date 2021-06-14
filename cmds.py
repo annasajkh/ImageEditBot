@@ -387,6 +387,29 @@ def crop_circle(value, img):
                 img_data[x, y] = 0
     return img
 
+def move(value, img):
+    """
+    move image
+    args
+    1. h / v
+    2. number
+    """
+
+    value = args_to_array(value, 2)
+
+    img_arr = np.array(img)
+
+    if value[0] == "h":
+        for i in range(img.width):
+            img_arr[i,:] = np.roll(img_arr[i,:],int(value[1].strip()),0)
+    elif value[0] == "v":
+        for i in range(img.height):
+            img_arr[:,i] = np.roll(img_arr[:, i],int(value[1].strip()),0)
+    else:
+        raise Exception("Argument error for flip")
+    
+    return Image.fromarray(img_arr)
+
 
 def slutter(value, img):
     value = int(value.strip())
