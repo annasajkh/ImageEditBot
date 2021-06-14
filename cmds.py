@@ -407,7 +407,7 @@ def move(value, img):
             img_arr[i,:] = np.roll(img_arr[i,:],val,0)
 
     elif value[0] == "v":
-        val = int(np.clip(int(value[1].strip())),0,100 / 100 * img.height)
+        val = int(np.clip(int(value[1].strip()),0,100) / 100 * img.height)
 
         for i in range(img.height):
             img_arr[:,i] = np.roll(img_arr[:, i],val,0)
