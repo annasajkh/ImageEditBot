@@ -46,44 +46,6 @@ def handle(twitter, tweet, root_tweet, commands_text):
     entities = root_tweet.extended_entities["media"]
     
     try:
-
-        if "recover" in commands_text:
-            print("lsuhfuefhcwengujf")
-            count = 0
-            for media in entities:
-                urllib.request.urlretrieve(media["media_url"], f"img{count}.png")
-                count += 1
-
-            imgs = []
-            for img_path in glob.glob("*.png"):
-                imgs.append(Image.open(img_path))
-            
-            img1 = imgs[0]
-            img2 = imgs[1]
-
-            img1dat = img1.load()
-            img2dat = img2.load()
-
-            for i in range(img2.width):
-                for j in range(img2.height):
-                    img2dat[i, j] = img2dat[i, j] - img1dat[i,j]
-            
-            img2.save("img.png")
-
-            for img_path in glob.glob("*.png"):
-                res = twitter.media_upload(img_path)
-
-                if not res == "":
-                    media_ids.append(res.media_id)
-            
-            
-            os.remove("img.png")
-
-            twitter.update_status(f"@{tweet.user.screen_name}", media_ids=media_ids, in_reply_to_status_id=tweet.id)
-            return
-
-        
-
         for media in entities:
             #download images
             urllib.request.urlretrieve(media["media_url"], "img.png")
