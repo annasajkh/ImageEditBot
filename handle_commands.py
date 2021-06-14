@@ -26,7 +26,7 @@ def execute_commands(img, commands_text):
 
         # get key and value
         key = command[0].strip()
-        value = command[1].strip()
+        value = "".join([x.strip() for x in command[1:]])
 
         if not key in commands_list.keys():
             raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
