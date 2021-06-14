@@ -177,17 +177,19 @@ def multi(value, img):
             command = command.slip('=')
 
             # Don't allow multi calls inside of multi
-            if command[0] == 'multi' or command[0] == 'multirandom':
-                raise Ex
+            if command[0] == 'multi' or command[0] == 'multirand':
+                raise Exception("multi: multi not allowed recursively")
                 
             if command[0] in commands_list:
-                commands_list[command[0]](command[1], rect)
+                img = commands_list[command[0]](command[1], img)
             else:
                 raise Exception("multi: command doesn't exist!")
+        
+        return img
 
 
     # Separate arguments
-    values = args_to_array(value)
+    values = args_to_array(value, 5)
     x, y, w, h, comlist = values[:5]
 
     #
@@ -198,7 +200,7 @@ def multi(value, img):
     rect = img.crop((x, y, w, h))
 
     # Apply the commands to the rectangle
-    apply_commands(comlist, rect)
+    rect = apply_commands(comlist, rect)
     
     #
     # Outside
@@ -208,7 +210,7 @@ def multi(value, img):
     if len(values) >= 6:
         comlist = values[6]
 
-        apply_commands(comlist, rect)
+        return apply_commands(comlist, img)
 
     #
     # Paste and return
@@ -232,7 +234,7 @@ def multirand(value, img):
     """
 
     # Arguments
-    values = args_to_array(value)
+    values = args_to_array(value, 5)
 
     if value[0] not in ["h", "v"]:
         raise Exception('multirand: first argument must be "h" or "v"')
