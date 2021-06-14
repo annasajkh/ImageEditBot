@@ -48,6 +48,7 @@ def handle(twitter, tweet, root_tweet, commands_text):
     try:
 
         if "recover" in commands_text:
+            print("lsuhfuefhcwengujf")
             count = 0
             for media in entities:
                 urllib.request.urlretrieve(media["media_url"], f"img{count}.png")
