@@ -299,6 +299,30 @@ def multirand(value, img):
 
     return multi(value, img)
 
+def filter_img(value, img):
+    """
+    apply filter automaticly
+    value=blur;emboss
+
+    the function list is
+
+    ['BLUR', 'BoxBlur', 'BuiltinFilter', 'CONTOUR', 'Color3DLUT', 'DETAIL', 
+    'EDGE_ENHANCE', 'EDGE_ENHANCE_MORE', 'EMBOSS', 'FIND_EDGES', 'Filter', 
+    'GaussianBlur', 'Kernel', 'MaxFilter', 'MedianFilter', 'MinFilter', 
+    'ModeFilter', 'MultibandFilter', 'RankFilter', 'SHARPEN', 'SMOOTH', 
+    'SMOOTH_MORE', 'UnsharpMask']
+    """
+    value = value.split(";")
+    
+    #remove function with that has _ in it
+    filter_func = filter(lambda x : not "_" in x,dir(ImageFilter))
+
+    for val in value:
+        for func in filter_func:
+            if val.lower() == func.lower():
+                img = img.filter(getattr(ImageFilter,func))
+                break
+    return img
 
 
 #def repeat(value, img):
@@ -429,6 +453,7 @@ def multirand(value, img):
 # COMMANDS LIST #
 #################
 
+
 commands_list = {
     "rotate": lambda value, img : img.rotate(int(value), expand=True),
 
@@ -452,6 +477,8 @@ commands_list = {
     "multirand": multirand,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
+
+    "filter": filter_img
 }
 
 

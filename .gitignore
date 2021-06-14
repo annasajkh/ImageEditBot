@@ -1,7 +1,4 @@
-auth.py
 /venv
 /__pycache__
 *.png
-test.py
-test.jpeg
 script.py
