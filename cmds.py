@@ -439,29 +439,14 @@ def slutter(value, img):
 
 
 
-def spiral(value, img):
+def swirl(value, img):
     """
     this is hard idk how to do it
     """
-    # value = float(value)
+    value = float(value)
 
-    # center = (img.width // 2, img.height // 2)
-
-    # img_data = img.load()
-    # img_temp = Image.new("RGB",(img.width,img.height))
-    # img_temp_data = img_temp.load()
-
-    # count = 1
-
-    # for x in range(img.width):
-    #     for y in range(img.height):
-    #         if math.dist(center,(x,y)) <= count:
-    #             img_temp_data[x, y] = img_data[x, y]
-    #     img_temp.rotate(value)
-    #     count += 1
+    img.swirl(value)
     
-    # return img_temp
-
     return img
         
 
@@ -662,7 +647,7 @@ commands_list = {
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
     "filter": filterfunc,
-    "spiral": spiral,
+    "swirl": swirl,
     "crop_circle": crop_circle,
     "slutter": slutter,
     "move": move
