@@ -10,7 +10,7 @@ class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
 
         if "delete" in tweet.text:
-            twitter.destroy_status(tweet.in_reply_to_status_id_str)
+            twitter.destroy_status(tweet.in_reply_to_status_id)
             return
 
         global root_tweet
