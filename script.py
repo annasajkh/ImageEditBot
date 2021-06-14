@@ -1,6 +1,11 @@
-import cmds
+import os
 from PIL import Image
+import cmds
+
 
 img = Image.open('cat.png')
 
-cmds.commands_list['multi']('5;5;100;50;impact=woah:contrast=30:blur=20;contrast=50:max=17', img).save('out.png')
+img = cmds.commands_list['multirand']('h;0;50;10;contrast=150', img)
+img.save('out.png')
+
+os.system('feh out.png')

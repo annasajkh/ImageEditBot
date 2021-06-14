@@ -271,9 +271,9 @@ def multirand(value, img):
         raise Exception('multirand: first argument must be "h" or "v"')
 
     # Assign names to the variables for readibility
-    min_start = value[1]
-    max_start = value[2]
-    min_length = value[3]
+    min_start = values[1]
+    max_start = values[2]
+    min_length = values[3]
 
     v = value[0] == "v"
 
@@ -284,17 +284,17 @@ def multirand(value, img):
 
     # Get the start and end percentages
     start = random.randint(np.clip(int(min_start), 1, 100), np.clip(int(max_start), 1, 100))
-    end = random.randint(start+1, np.clip(int(min_length)))
+    end = random.randint(start + np.clip(int(min_length), 1, 100), size1)
 
-    # Transform the percentages to pixels
-    start = (size1/100) * start
-    end = (size2/100) * start
+    start = int(start)
+    end = int(end)
 
     # Call multi
     if v:
-        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[3:])
+        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[4:])
     else:
-        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[3:])
+        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[4:])
+
 
     return multi(value, img)
 
