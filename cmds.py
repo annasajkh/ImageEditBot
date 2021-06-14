@@ -282,6 +282,7 @@ def multirand(value, img):
     size1 = img.size[0] if v else img.size[1]
     size2 = img.size[0] if not v else img.size[1]
 
+    
     # Get the start and end percentages
     start = random.randint(np.clip(int(min_start), 1, 100), np.clip(int(max_start), 1, 100))
     end = random.randint(start + np.clip(int(min_length), 1, 100), size1)
@@ -298,7 +299,7 @@ def multirand(value, img):
 
     return multi(value, img)
 
-def random(img):
+def random_commands(img):
     pass
 
 #def repeat(value, img):
