@@ -202,11 +202,15 @@ def multi(value, img):
     # Convert string to int
     x, y, w, h = [int(i) for i in [x, y, w, h]]
 
+    print(x, y, w, h)
+
     # Convert percentages to pixel coords
-    x = img.size[0] * (x//100)
-    y = img.size[1] * (y//100)
-    w = img.size[0] * (w//100)
-    h = img.size[1] * (h//100)
+    x = int(img.size[0] * (x/100))
+    y = int(img.size[1] * (y/100))
+    w = int(img.size[0] * (w/100))
+    h = int(img.size[1] * (h/100))
+
+    print(x, y, w, h)
 
     #
     # Apply the effects
@@ -305,6 +309,8 @@ def wave(value, img):
     amplitude = int(values[2])
 
     v = values[0] == 'v'
+
+    print(img.size)
 
     # Start the noise
     s = OpenSimplex(seed=random.randint(0, 1000000))
