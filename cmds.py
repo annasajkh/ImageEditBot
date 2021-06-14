@@ -392,7 +392,7 @@ def move(value, img):
     move image
     args
     1. h / v
-    2. number
+    2. percentage
     """
 
     value = args_to_array(value, 2)
