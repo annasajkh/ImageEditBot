@@ -148,7 +148,7 @@ def median(value, img):
 
 def contrast(value, img):
     try:
-        value = edit_functions.clamp(int(value), -1000, 1000)
+        value = np.clip(int(value), -1000, 1000)
     except:
         raise Exception("Argument error for contrast")
 
