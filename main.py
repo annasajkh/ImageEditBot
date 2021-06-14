@@ -5,7 +5,7 @@ import handle_commands
 from api import twitter
 
 queues = []
-
+is_connected = False
 
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
@@ -58,19 +58,10 @@ stream = tweepy.Stream(auth, listener=listener)
 
 
 while True:
-    try:
-        """
-        when it enter the loop it will streaming twitter and when it enter the loop
-        for the second time it will raise an exception and by doing that we will know
-        if other thread is already running or not
-        """
+    if not is_connected:
         stream.filter(track=["@ImageEditBot"],is_async=True)
-    except Exception as e:
-        """
-        when there is an exception aka when stream thread is already running then remove first item
-        from the queues and procees the commands and if the bot is processing the command
-        and you call it it will add it to the queues from the stream thread
-        """
+        is_connected = True
+    else:
         if queues:
             first = queues.pop(0)
             handle_commands.handle(first[0],first[1],first[2],first[3])
