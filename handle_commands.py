@@ -70,13 +70,14 @@ def handle(twitter, tweet, root_tweet, commands_text):
             
             img2.save("img.png")
 
-            os.remove("img.png")
-
             for img_path in glob.glob("*.png"):
                 res = twitter.media_upload(img_path)
 
                 if not res == "":
                     media_ids.append(res.media_id)
+            
+            
+            os.remove("img.png")
 
             twitter.update_status(f"@{tweet.user.screen_name}", media_ids=media_ids, in_reply_to_status_id=tweet.id)
             return
