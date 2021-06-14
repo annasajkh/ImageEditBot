@@ -207,6 +207,7 @@ def multi(value, img):
 
     # Separate arguments
     values = args_to_array(value, 5)
+    print(values)
 
     # Name the variables for readibility
     x, y, w, h = values[:4]
