@@ -355,7 +355,7 @@ def crop_circle(value, img):
     value is percentage
     """
 
-    value = np.clip(int(value), 0, 100) / 100 * img.width if img.width > img.height else img.height
+    value = np.clip(int(value.strip()), 0, 100) / 100 * img.width if img.width > img.height else img.height
 
     center = (img.width // 2, img.height // 2)
 
@@ -369,6 +369,22 @@ def crop_circle(value, img):
             else:
                 img_data[x, y] = 0
     return img
+
+
+# def stutter(value, img):
+#     value = int(value.strip())
+
+#     for i in range(value):
+#         x1 = random.randrange(0, img.width)
+#         y1 = random.randrange(0, img.height)
+
+#         x2 = random.randrange(0, img.width)
+#         y2 = random.randrange(0, img.height)
+
+
+        
+
+
 
 
 def spiral(value, img):
