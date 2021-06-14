@@ -185,6 +185,7 @@ def multi(value, img):
 
 
     def apply_commands(comlist, img):
+        print(comlist)
         for command in comlist:
             command = command.split('=')
             print(command[0])
