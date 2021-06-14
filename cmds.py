@@ -222,7 +222,7 @@ def multi(value, img):
     # Since this is before pasting, the effects are going to appear
     # outside of the rectangle in the final image
     if len(values) >= 6:
-        comlist = values[6]
+        comlist = values[5]
 
         img = apply_commands(comlist, img)
 
