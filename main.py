@@ -67,4 +67,4 @@ while True:
                 first = queues.pop(0)
                 handle_commands.handle(first[0],first[1],first[2],first[3])
     except:
-        is_connected = True
+        is_connected = False
