@@ -174,22 +174,18 @@ def multi(value, img):
     Allows applying different commands in different parts of the image
 
     Args:
-    x_percent;y_percent;width_height;<commands applied inside the rect>;<commands applied outside the rect>(optional)
-
-    - commands are seperated by :
+    x_percent;y_percent;width_height;<commands>
 
     e.g
     10;30;40;80;blur=10:contrast=30
-    10;30;40;80;glitch=true;blur=90:contrast=37
+    10;30;40;80;glitch=true;blur=90;contrast=37
     """
 
     global commands_list
 
 
     def apply_commands(comlist, img):
-        commands = comlist.split(':')
-
-        for command in commands:
+        for command in comlist:
             command = command.split('=')
             print(command[0])
 
@@ -210,18 +206,21 @@ def multi(value, img):
     values = args_to_array(value, 5)
 
     # Name the variables for readibility
-    x, y, w, h, comlist = values[:5]
+    x, y, w, h = values[:4]
+
+    comlist = values[5:]
 
     # Convert string to int
     x, y, w, h = [int(i) for i in [x, y, w, h]]
 
+    # Convert percentages to pixel coords
     x = (img.size[0]//100) * x
     y = (img.size[1]//100) * y
     w = (img.size[0]//100) * w
     h = (img.size[1]//100) * h
 
     #
-    # Inside of rectangle
+    # Apply the effects
     #
     
     # Crop the rectangle
@@ -229,18 +228,6 @@ def multi(value, img):
 
     # Apply the commands to the rectangle
     rect = apply_commands(comlist, rect)
-    
-    #
-    # Outside
-    #
-    
-    # Apply the commands to image.
-    # Since this is before pasting, the effects are going to appear
-    # outside of the rectangle in the final image
-    if len(values) >= 6:
-        comlist = values[5]
-
-        img = apply_commands(comlist, img)
 
     #
     # Paste and return
@@ -258,7 +245,7 @@ def multirand(value, img):
 
     Args:
 
-    h_or_v;min_start;max_start;min_length;<commands inside>;<commands outside>(optional)
+    h_or_v;min_start;max_start;min_length;<commands>
 
     min_start, max_start and min_length are all in percentages
     """
