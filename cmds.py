@@ -397,15 +397,20 @@ def move(value, img):
 
     value = args_to_array(value, 2)
 
+
     img_arr = np.array(img)
 
     if value[0] == "h":
+        val = np.clip(int(value[1].strip()),0,100) / 100 * img.width
+
         for i in range(img.width):
-            img_arr[i,:] = np.roll(img_arr[i,:],int(value[1].strip()),0)
+            img_arr[i,:] = np.roll(img_arr[i,:],val,0)
 
     elif value[0] == "v":
+        val = np.clip(int(value[1].strip()),0,100) / 100 * img.height
+
         for i in range(img.height):
-            img_arr[:,i] = np.roll(img_arr[:, i],int(value[1].strip()),0)
+            img_arr[:,i] = np.roll(img_arr[:, i],val,0)
         
     else:
         raise Exception("Argument error for flip")
