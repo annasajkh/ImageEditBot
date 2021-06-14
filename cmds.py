@@ -1,19 +1,12 @@
-import html
 import random
+
+import math
+
 import numpy as np
 import numexpr as ne
-import simpleeval
-import math
-from multiprocessing import Pool
-import urllib.request
-import edit_functions
-
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 
 from impact import make_caption
-
-
-value_global = ""
 
 
 #####################################
@@ -33,15 +26,12 @@ def args_to_array(value, min_args):
     return value
 
 
-def convert_all_to_int(array):
+def all_to_int(array):
     """
     Used to convert an array of string args to ints
     """
     
-    for i in array:
-        array[i] = int(array[i].strip())
-
-    return array
+    return [int(x.strip()) for x in array]
 
 
 #####################
@@ -58,7 +48,7 @@ def crop(value, img):
     """
 
     # Convert the argument string to a list of ints
-    values = convert_all_to_int(args_to_array(value, 4))
+    values = all_to_int(args_to_array(value, 4))
 
     # Limit the values to 0-100 so they're percentages
     # Then divide the values by 100 so multiplying a number
@@ -66,12 +56,14 @@ def crop(value, img):
     # Also deconstruct the list into variables
     x, y, w, h = map(lambda x: np.clip(int(x), 0, 100) / 100, values)
     
+    # Coordinates for Image.crop()
+    coord = tuple(all_to_int([img.size[0]*x,
+                              img.size[1]*y,
+                              img.size[0]*w,
+                              img.size[1]*h]))
     
     # Crop the image, by percentages
-    return img.crop((x * img.size[0], 
-                     y * img.size[1], 
-                     w * img.size[0], 
-                     h * img.size[1]))
+    return img.crop(coord)
 
 
 def blur(value, img):
