@@ -63,7 +63,7 @@ def handle(twitter, tweet, root_tweet, commands_text):
 
             for i in range(img2.width):
                 for j in range(img2.height):
-                    img2dat = img2dat[i, j] - img1dat
+                    img2dat[i, j] = img2dat[i, j] - img1dat[i,j]
             
             img2.save("img.png")
 
