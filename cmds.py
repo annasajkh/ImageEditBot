@@ -382,16 +382,21 @@ def crop_circle(value, img):
     return img
 
 
-# def stutter(value, img):
-#     value = int(value.strip())
+def slutter(value, img):
+    value = int(value.strip())
+    
+    img_arr = np.array(img)
 
-#     for i in range(value):
-#         x1 = random.randrange(0, img.width)
-#         y1 = random.randrange(0, img.height)
+    for i in range(value):
+        x1 = random.randrange(0, img.width)
+        y1 = random.randrange(0, img.height)
 
-#         x2 = random.randrange(0, img.width)
-#         y2 = random.randrange(0, img.height)
+        x2 = random.randrange(0, img.width)
+        y2 = random.randrange(0, img.height)
 
+        img_arr[x2:y2] = img_arr[x1:y1]
+    
+    return Image.fromarray(img_arr)
 
         
 
@@ -622,5 +627,6 @@ commands_list = {
 
     "filter": filterfunc,
     "spiral": spiral,
-    "crop_circle": crop_circle
+    "crop_circle": crop_circle,
+    "slutter": slutter
 }
