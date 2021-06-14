@@ -301,7 +301,8 @@ def multirand(value, img):
 
 def filterfunc(value, img):
     """
-    apply filter automaticly
+    apply filter easily
+    
     value=blur;emboss
 
     the function list is
