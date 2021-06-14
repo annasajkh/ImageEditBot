@@ -175,11 +175,13 @@ def multi(value, img):
 
         for command in commands:
             command = command.split('=')
+            print(command[0])
 
             # Don't allow multi calls inside of multi
             if command[0] == 'multi' or command[0] == 'multirand':
                 raise Exception("multi: multi not allowed recursively")
                 
+            # Run the commands
             if command[0] in commands_list:
                 img = commands_list[command[0]](command[1], img)
             else:
@@ -190,7 +192,17 @@ def multi(value, img):
 
     # Separate arguments
     values = args_to_array(value, 5)
+
+    # Name the variables for readibility
     x, y, w, h, comlist = values[:5]
+
+    # Convert string to int
+    x, y, w, h = [int(i) for i in [x, y, w, h]]
+
+    x = (img.size[0]//100) * x
+    y = (img.size[1]//100) * y
+    w = (img.size[0]//100) * w
+    h = (img.size[1]//100) * h
 
     #
     # Inside of rectangle
@@ -264,7 +276,7 @@ def multirand(value, img):
 
     # Call multi
     if v:
-        value = str(start) + ';0;' + str(end) + ';' str(size2) + ';' + ';'.join(values[3:])
+        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[3:])
     else:
         value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[3:])
 
