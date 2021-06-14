@@ -57,10 +57,10 @@ def crop(value, img):
     x, y, w, h = map(lambda x: np.clip(int(x), 0, 100) / 100, values)
     
     # Coordinates for Image.crop()
-    coord = tuple(all_to_int([img.size[0]*x,
-                              img.size[1]*y,
-                              img.size[0]*w,
-                              img.size[1]*h]))
+    coord = tuple([int(c) for c in [img.size[0]*x,
+                                    img.size[1]*y,
+                                    img.size[0]*w,
+                                    img.size[1]*h]])
     
     # Crop the image, by percentages
     return img.crop(coord)
