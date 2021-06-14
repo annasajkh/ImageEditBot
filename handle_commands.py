@@ -53,7 +53,7 @@ def handle(twitter, tweet, root_tweet, commands_text):
 
             imgs = []
             for img_path in glob.glob("*.png"):
-                imgs.add(Image.open(img_path))
+                imgs.append(Image.open(img_path))
             
             img1 = imgs[0]
             img2 = imgs[1]
