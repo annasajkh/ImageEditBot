@@ -8,11 +8,6 @@ queues = []
 
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
-
-        if "delete" in tweet.text:
-            twitter.destroy_status(tweet.in_reply_to_status_id)
-            return
-
         global root_tweet
 
         # if there is no in_reply_to_status_id_str the it's not a comment
