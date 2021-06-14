@@ -372,7 +372,7 @@ def crop_circle(value, img):
     value is percentage
     """
 
-    value = np.clip(int(value), 0, 100) / 100 * img.width if img.width > img.height else img.height
+    value = np.clip(int(value.strip()), 0, 100) / 100 * img.width if img.width > img.height else img.height
 
     center = (img.width // 2, img.height // 2)
 
@@ -386,6 +386,27 @@ def crop_circle(value, img):
             else:
                 img_data[x, y] = 0
     return img
+
+
+def slutter(value, img):
+    value = int(value.strip())
+    
+    img_arr = np.array(img)
+
+    for i in range(value):
+        x1 = random.randrange(0, img.width)
+        y1 = random.randrange(0, img.height)
+
+        x2 = random.randrange(0, img.width)
+        y2 = random.randrange(0, img.height)
+
+        img_arr[x2:y2] = img_arr[x1:y1]
+    
+    return Image.fromarray(img_arr)
+
+        
+
+
 
 
 def spiral(value, img):
@@ -612,5 +633,6 @@ commands_list = {
 
     "filter": filterfunc,
     "spiral": spiral,
-    "crop_circle": crop_circle
+    "crop_circle": crop_circle,
+    "slutter": slutter
 }

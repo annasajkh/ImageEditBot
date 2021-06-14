@@ -46,7 +46,6 @@ def handle(twitter, tweet, root_tweet, commands_text):
     entities = root_tweet.extended_entities["media"]
     
     try:
-
         for media in entities:
             #download images
             urllib.request.urlretrieve(media["media_url"], "img.png")
