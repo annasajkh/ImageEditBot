@@ -659,5 +659,6 @@ commands_list = {
     "filter": filterfunc,
     "spiral": spiral,
     "crop_circle": crop_circle,
-    "slutter": slutter
+    "slutter": slutter,
+    "move": move
 }
