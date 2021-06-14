@@ -288,20 +288,35 @@ def wave(value, img):
     h;300;50
     """
 
-    values = args_to_array(value)
+    values = args_to_array(value, 3)
+
+    amplitude = int(values[1])
+    frequency = int(values[2])
+
+    v = values[0] == 'v'
 
     # Start the noise
     s = OpenSimplex(seed=random.randint(0, 1000000))
 
     # We're either going to loop through the width or height of the image
     # depending on wether the wave is horizontal or vertical
-    size = img.size[0] if values[0] == 'v' else img.size[1]
+    size = img.size[0] if v else img.size[1]
 
     # Convert the image to numpy array for rolling
     arr = np.array(img)
 
     for x in range(size):
-        arr[x] = np.roll(arr[x], int(s.noise2d(x/int(values[1]), 1) * int(values[2]), 0)
+        # Vertical Horizontal messing #1
+        a = arr[:, x] if v else arr[x]
+
+        # Wave the pixels
+        a = np.roll(a, int(s.noise2d(x/frequency, 1) * amplitude), 0)
+
+        # Vertical Horizontal messing #2
+        if v:
+            arr[:, x] = a
+        else:
+            arr[x] = a
 
     return Image.fromarray(arr)
 
