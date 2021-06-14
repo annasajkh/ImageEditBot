@@ -160,17 +160,19 @@ def multi(value, img):
 
     Args:
     x_percent;y_percent;width_height;<commands>
+    commands are separated with :
 
     e.g
     10;30;40;80;blur=10:contrast=30
-    10;30;40;80;glitch=true;blur=90;contrast=37
+    10;30;40;80;glitch=true:blur=90:contrast=37
     """
 
     global commands_list
 
 
     def apply_commands(comlist, img):
-        print(comlist)
+        comlist = ";".join(comlist).split(':')
+
         for command in comlist:
             command = command.split('=')
             print(command[0])
