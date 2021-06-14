@@ -317,6 +317,7 @@ def filter_img(value, img):
     #remove function with that has _ in it
     filter_func = filter(lambda x : not "_" in x,dir(ImageFilter))
 
+    #apply each function to the image
     for val in value:
         for func in filter_func:
             if val.lower() == func.lower():
