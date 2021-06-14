@@ -208,8 +208,6 @@ def multi(value, img):
     # Name the variables for readibility
     x, y, w, h = values[:4]
 
-    comlist = values[5:]
-
     # Convert string to int
     x, y, w, h = [int(i) for i in [x, y, w, h]]
 
@@ -227,6 +225,7 @@ def multi(value, img):
     rect = img.crop((x, y, w, h))
 
     # Apply the commands to the rectangle
+    comlist = values[4:]
     rect = apply_commands(comlist, rect)
 
     #
