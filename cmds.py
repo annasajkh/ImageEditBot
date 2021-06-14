@@ -401,13 +401,13 @@ def move(value, img):
     img_arr = np.array(img)
 
     if value[0] == "h":
-        val = np.clip(int(value[1].strip()),0,100) / 100 * img.width
+        val = int(np.clip(value[1].strip(),0,100) / 100 * img.width)
 
         for i in range(img.width):
             img_arr[i,:] = np.roll(img_arr[i,:],val,0)
 
     elif value[0] == "v":
-        val = np.clip(int(value[1].strip()),0,100) / 100 * img.height
+        val = int(np.clip(value[1].strip()),0,100 / 100 * img.height)
 
         for i in range(img.height):
             img_arr[:,i] = np.roll(img_arr[:, i],val,0)
