@@ -58,10 +58,13 @@ stream = tweepy.Stream(auth, listener=listener)
 
 
 while True:
-    if not is_connected:
-        stream.filter(track=["@ImageEditBot"],is_async=True)
+    try:
+        if not is_connected:
+            stream.filter(track=["@ImageEditBot"],is_async=True)
+            is_connected = True
+        else:
+            if queues:
+                first = queues.pop(0)
+                handle_commands.handle(first[0],first[1],first[2],first[3])
+    except:
         is_connected = True
-    else:
-        if queues:
-            first = queues.pop(0)
-            handle_commands.handle(first[0],first[1],first[2],first[3])
