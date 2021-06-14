@@ -299,7 +299,7 @@ def multirand(value, img):
 
     return multi(value, img)
 
-def filter_img(value, img):
+def filterfunc(value, img):
     """
     apply filter automaticly
     value=blur;emboss
@@ -479,7 +479,7 @@ commands_list = {
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
-    "filter": filter_img
+    "filter": filterfunc
 }
 
 
