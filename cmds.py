@@ -174,7 +174,7 @@ def multi(value, img):
         commands = comlist.split(':')
 
         for command in commands:
-            command = command.slip('=')
+            command = command.split('=')
 
             # Don't allow multi calls inside of multi
             if command[0] == 'multi' or command[0] == 'multirand':
@@ -206,18 +206,20 @@ def multi(value, img):
     # Outside
     #
     
-    # Apply the commands to the area outside the rectangle
+    # Apply the commands to image.
+    # Since this is before pasting, the effects are going to appear
+    # outside of the rectangle in the final image
     if len(values) >= 6:
         comlist = values[6]
 
-        return apply_commands(comlist, img)
+        img = apply_commands(comlist, img)
 
     #
     # Paste and return
     #
 
     # Paste the rectangle to the final image
-    img.paste(rect, x, y)
+    img.paste(rect, (x, y))
 
     return img
 
@@ -236,9 +238,11 @@ def multirand(value, img):
     # Arguments
     values = args_to_array(value, 5)
 
+    # Check if argument 0 is valid
     if value[0] not in ["h", "v"]:
         raise Exception('multirand: first argument must be "h" or "v"')
 
+    # Assign names to the variables for readibility
     min_start = value[1]
     max_start = value[2]
     min_length = value[3]
@@ -246,7 +250,7 @@ def multirand(value, img):
     v = value[0] == "v"
 
     # size1 is width if vertical, else horizontal
-    # size2 is opposite
+    # size2 is the opposite
     size1 = img.size[0] if v else img.size[1]
     size2 = img.size[0] if not v else img.size[1]
 
