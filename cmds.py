@@ -153,6 +153,118 @@ def contrast(value, img):
     return img.point(c)
 
 
+def multi(value, img):
+    """
+    Allows applying different commands in different parts of the image
+
+    Args:
+    x_percent;y_percent;width_height;<commands applied inside the rect>;<commands applied outside the rect>(optional)
+
+    - commands are seperated by :
+
+    e.g
+    10;30;40;80;blur=10:contrast=30
+    10;30;40;80;glitch=true;blur=90:contrast=37
+    """
+
+    global commands_list
+
+
+    def apply_commands(comlist, img):
+        commands = comlist.split(':')
+
+        for command in commands:
+            command = command.slip('=')
+
+            # Don't allow multi calls inside of multi
+            if command[0] == 'multi' or command[0] == 'multirandom':
+                raise Ex
+                
+            if command[0] in commands_list:
+                commands_list[command[0]](command[1], rect)
+            else:
+                raise Exception("multi: command doesn't exist!")
+
+
+    # Separate arguments
+    values = args_to_array(value)
+    x, y, w, h, comlist = values[:5]
+
+    #
+    # Inside of rectangle
+    #
+    
+    # Crop the rectangle
+    rect = img.crop((x, y, w, h))
+
+    # Apply the commands to the rectangle
+    apply_commands(comlist, rect)
+    
+    #
+    # Outside
+    #
+    
+    # Apply the commands to the area outside the rectangle
+    if len(values) >= 6:
+        comlist = values[6]
+
+        apply_commands(comlist, rect)
+
+    #
+    # Paste and return
+    #
+
+    # Paste the rectangle to the final image
+    img.paste(rect, x, y)
+
+    return img
+
+
+def multirand(value, img):
+    """
+    Like multi but the rectangle's position is chosen randomly
+
+    Args:
+
+    h_or_v;min_start;max_start;min_length;<commands inside>;<commands outside>(optional)
+
+    min_start, max_start and min_length are all in percentages
+    """
+
+    # Arguments
+    values = args_to_array(value)
+
+    if value[0] not in ["h", "v"]:
+        raise Exception('multirand: first argument must be "h" or "v"')
+
+    min_start = value[1]
+    max_start = value[2]
+    min_length = value[3]
+
+    v = value[0] == "v"
+
+    # size1 is width if vertical, else horizontal
+    # size2 is opposite
+    size1 = img.size[0] if v else img.size[1]
+    size2 = img.size[0] if not v else img.size[1]
+
+    # Get the start and end percentages
+    start = random.randint(np.clip(int(min_start), 1, 100), np.clip(int(max_start), 1, 100))
+    end = random.randint(start+1, np.clip(int(min_length)))
+
+    # Transform the percentages to pixels
+    start = (size1/100) * start
+    end = (size2/100) * start
+
+    # Call multi
+    if v:
+        value = str(start) + ';0;' + str(end) + ';' str(size2) + ';' + ';'.join(values[3:])
+    else:
+        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[3:])
+
+    return multi(value, img)
+    
+    
 #def repeat(value, img):
 #    #value = number;number
 #    
