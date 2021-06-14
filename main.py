@@ -5,7 +5,6 @@ import handle_commands
 from api import twitter
 
 queues = []
-is_connected = False
 
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
@@ -59,12 +58,8 @@ stream = tweepy.Stream(auth, listener=listener)
 
 while True:
     try:
-        if not is_connected:
-            stream.filter(track=["@ImageEditBot"],is_async=True)
-            is_connected = True
-        else:
-            if queues:
-                first = queues.pop(0)
-                handle_commands.handle(first[0],first[1],first[2],first[3])
+        stream.filter(track=["@ImageEditBot"],is_async=True)
     except:
-        is_connected = False
+        if queues:
+            first = queues.pop(0)
+            handle_commands.handle(first[0],first[1],first[2],first[3])
