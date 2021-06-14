@@ -299,8 +299,7 @@ def multirand(value, img):
 
     return multi(value, img)
 
-def random_commands(img):
-    pass
+
 
 #def repeat(value, img):
 #    #value = number;number
@@ -453,8 +452,6 @@ commands_list = {
     "multirand": multirand,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
-
-    "random": random
 }
 
 
