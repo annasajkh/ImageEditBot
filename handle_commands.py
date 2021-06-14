@@ -53,7 +53,7 @@ def handle(twitter, tweet, root_tweet, commands_text):
 
             img = Image.open("img.png")
 
-            execute_commands(img,commands_text)
+            img = execute_commands(img,commands_text)
 
             img.save("img.png")
             res = twitter.media_upload("img.png")
