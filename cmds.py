@@ -160,17 +160,19 @@ def multi(value, img):
 
     Args:
     x_percent;y_percent;width_height;<commands>
+    commands are separated with :
 
     e.g
     10;30;40;80;blur=10:contrast=30
-    10;30;40;80;glitch=true;blur=90;contrast=37
+    10;30;40;80;glitch=true:blur=90:contrast=37
     """
 
     global commands_list
 
 
     def apply_commands(comlist, img):
-        print(comlist)
+        comlist = ";".join(comlist).split(':')
+
         for command in comlist:
             command = command.split('=')
             print(command[0])
@@ -233,22 +235,31 @@ def multirand(value, img):
 
     Args:
 
-    h_or_v;min_start;max_start;min_length;<commands>
+    h_or_v;min_start;max_start;min_length;max_length;<commands>
 
     min_start, max_start and min_length are all in percentages
     """
 
     # Arguments
     values = args_to_array(value, 5)
+    print(values)
 
     # Check if argument 0 is valid
     if value[0] not in ["h", "v"]:
         raise Exception('multirand: first argument must be "h" or "v"')
 
+
     # Assign names to the variables for readibility
-    min_start = values[1]
-    max_start = values[2]
-    min_length = values[3]
+    percent = lambda x : np.clip(int(x), 1, 100)
+    min_start = percent(values[1])
+    max_start = percent(values[2])
+    min_length = percent(values[3])
+    max_length = percent(values[4])
+
+    # No trolling
+    if min_length > max_length:
+        raise Exception('multirand: min_length cannot be greater than max_length!')
+        
 
     v = value[0] == "v"
 
@@ -259,17 +270,17 @@ def multirand(value, img):
 
     
     # Get the start and end percentages
-    start = random.randint(np.clip(int(min_start), 1, 100), np.clip(int(max_start), 1, 100))
-    end = random.randint(start + np.clip(int(min_length), 1, 100), size1)
+    start = random.randint(min_start, max_start)
+    end = percent(random.randint(start + min_length, start + max_length))
 
     start = int(start)
     end = int(end)
 
     # Call multi
     if v:
-        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[4:])
+        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[5:])
     else:
-        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[4:])
+        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[5:])
 
 
     return multi(value, img)
@@ -281,17 +292,17 @@ def wave(value, img):
 
     Args:
     1 - h or v
-    2 - amplitude
-    3 - frequency
+    2 - frequency
+    3 - amplitude
 
     e.g.
-    h;300;50
+    h;50;300
     """
 
     values = args_to_array(value, 3)
 
-    amplitude = int(values[1])
-    frequency = int(values[2])
+    frequency = int(values[1])
+    amplitude = int(values[2])
 
     v = values[0] == 'v'
 

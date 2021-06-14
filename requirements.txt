@@ -12,3 +12,4 @@ six==1.16.0
 tweepy==3.10.0
 urllib3==1.26.5
 numexpr==2.7.3
+opensimplex==0.3
