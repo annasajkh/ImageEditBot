@@ -5,50 +5,35 @@ import math
 import numpy as np
 import numexpr as ne
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
+from opensimplex import OpenSimplex
 
 from impact import make_caption
 
 
-##########################################
-# HELPER FUNCTIONS FOR THE COMMANDS LIST #
-##########################################
+#####################################
+# HELPER FUNCTIONS FOR THE COMMANDS #
+#####################################
 
 
-def lambda_filter(imgfilter):
+def args_to_array(value, min_args):
     """
-    Returns a lambda with two arguments
-    if the first argument is the string "true", 'imgfilter' is applied to the second argument
+    Converts a string of arguments seperated by ";" to a list of values
     """
+    value = value.split(';')
 
-    return lambda value, img : img.filter(imgfilter) if value == "true" else img
+    if len(value) < min_args:
+        raise Exception("not enough arguments")
+
+    return value
+
+
+def all_to_int(array):
+    """
+    Used to convert an array of string args to ints
+    """
     
-def lambda_function(func):
-    """
-    Returns a lambda with two arguments
-    if the first argument is the string "true", 'func' is applied to the second argument
-    """
+    return [int(x.strip()) for x in array]
 
-    return lambda value, img : func(img) if value == "true" else img
-
-
-def lambda_function_adv(func, minval, maxval):
-    """
-    Returns a function with two arguments
-
-    the first argument is a string
-    that string is converted to an int and clamped between 'minval' and 'maxval'
-
-    The second argument is an image
-    """
-    def fun(value, img):
-        try:
-            value = np.clip(int(value), minval, maxval)
-        except:
-            raise Exception("Argument error")
-        
-        return func(img, value)
-
-    return fun
 
 #####################
 # COMMAND FUNCTIONS #
@@ -289,6 +274,38 @@ def multirand(value, img):
 
     return multi(value, img)
 
+
+def wave(value, img):
+    """
+    Waves the image according to a gradient noise generator
+
+    Args:
+    1 - h or v
+    2 - amplitude
+    3 - frequency
+
+    e.g.
+    h;300;50
+    """
+
+    values = args_to_array(value)
+
+    # Start the noise
+    s = OpenSimplex(seed=random.randint(0, 1000000))
+
+    # We're either going to loop through the width or height of the image
+    # depending on wether the wave is horizontal or vertical
+    size = img.size[0] if values[0] == 'v' else img.size[1]
+
+    # Convert the image to numpy array for rolling
+    arr = np.array(img)
+
+    for x in range(size):
+        arr[x] = np.roll(arr[x], int(s.noise2d(x/int(values[1]), 1) * int(values[2]), 0)
+
+    return Image.fromarray(arr)
+
+
 def filterfunc(value, img):
     """
     apply filter easily
@@ -316,6 +333,7 @@ def filterfunc(value, img):
                 break
     return img
 
+
 def crop_circle(value, img):
     """
     crop by using circle
@@ -336,6 +354,7 @@ def crop_circle(value, img):
             else:
                 img_data[x, y] = 0
     return img
+
 
 def spiral(value, img):
     """
@@ -486,7 +505,49 @@ def spiral(value, img):
 #                distance = math.sqrt(x * x + y * y)
 #                img[i ,j] = tuple(map(lambda x : int(x * (1 - (distance / max_distance * value)) * 3), img[i ,j]))
 
-                
+
+##########################################
+# HELPER FUNCTIONS FOR THE COMMANDS LIST #
+##########################################
+
+
+def lambda_filter(imgfilter):
+    """
+    Returns a lambda with two arguments
+    if the first argument is the string "true", 'imgfilter' is applied to the second argument
+    """
+
+    return lambda value, img : img.filter(imgfilter) if value == "true" else img
+    
+def lambda_function(func):
+    """
+    Returns a lambda with two arguments
+    if the first argument is the string "true", 'func' is applied to the second argument
+    """
+
+    return lambda value, img : func(img) if value == "true" else img
+
+
+def lambda_function_adv(func, minval, maxval):
+    """
+    Returns a function with two arguments
+
+    the first argument is a string
+    that string is converted to an int and clamped between 'minval' and 'maxval'
+
+    The second argument is an image
+    """
+    def fun(value, img):
+        try:
+            value = np.clip(int(value), minval, maxval)
+        except:
+            raise Exception("Argument error")
+        
+        return func(img, value)
+
+    return fun
+
+
 #################
 # COMMANDS LIST #
 #################
@@ -513,6 +574,7 @@ commands_list = {
     "contrast": contrast,
     "multi": multi,
     "multirand": multirand,
+    "wave": wave,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
@@ -520,28 +582,3 @@ commands_list = {
     "spiral": spiral,
     "crop_circle": crop_circle
 }
-
-
-#####################################
-# HELPER FUNCTIONS FOR THE COMMANDS #
-#####################################
-
-
-def args_to_array(value, min_args):
-    """
-    Converts a string of arguments seperated by ";" to a list of values
-    """
-    value = value.split(';')
-
-    if len(value) < min_args:
-        raise Exception("not enough arguments")
-
-    return value
-
-
-def all_to_int(array):
-    """
-    Used to convert an array of string args to ints
-    """
-    
-    return [int(x.strip()) for x in array]
