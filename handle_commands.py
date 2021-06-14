@@ -6,6 +6,36 @@ from cmds import commands_list
 from PIL import Image
 import traceback
 
+# execute every commands to the target image
+def execute_commands(img, commands_text):
+    commands = commands_text.split(",")
+
+    if len(commands) < 1:
+        return
+    
+    for command in commands:
+
+        if not "=" in command:
+            continue
+
+        command = command.split("=")
+
+        # if there is no value like 'rotate= ' then ignore it
+        if len(command) < 2:
+            continue
+
+        # get key and value
+        key = command[0].strip()
+        value = command[1].strip()
+
+        if not key in commands_list.keys():
+            raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
+        
+        # apply the function 
+        img = commands_list[key](value, img)
+    
+    return img
+
 
 def handle(twitter, tweet, root_tweet, commands):
     global value
@@ -22,28 +52,9 @@ def handle(twitter, tweet, root_tweet, commands):
             urllib.request.urlretrieve(media["media_url"], "img.png")
 
             img = Image.open("img.png")
-            
-            for command in commands:
 
-                if not "=" in command:
-                    continue
+            execute_commands(img)
 
-                command = command.split("=")
-
-                # if there is no value like 'rotate= ' then ignore it
-                if len(command) < 2:
-                    continue
-
-                # get key and value
-                key = command[0].strip()
-                value = command[1].strip()
-
-                if not key in commands_list.keys():
-                    raise Exception(f"there is no '{key}' command please read https://github.com/annasajkh/Commands/blob/main/README.org")
-                
-                # apply the function 
-                img = commands_list[key](value, img)
-            
             img.save("img.png")
             res = twitter.media_upload("img.png")
 
@@ -58,7 +69,7 @@ def handle(twitter, tweet, root_tweet, commands):
             twitter.update_status(f"@{tweet.user.screen_name}", media_ids=media_ids, in_reply_to_status_id=tweet.id)
     except Exception as e:
         traceback.print_exc()
-        
+
         string = str(e)
 
         #if the error message is larger than 280 charcter then crop it

@@ -9,30 +9,46 @@ from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 from impact import make_caption
 
 
-#####################################
-# HELPER FUNCTIONS FOR THE COMMANDS #
-#####################################
+##########################################
+# HELPER FUNCTIONS FOR THE COMMANDS LIST #
+##########################################
 
 
-def args_to_array(value, min_args):
+def lambda_filter(imgfilter):
     """
-    Converts a string of arguments seperated by ";" to a list of values
+    Returns a lambda with two arguments
+    if the first argument is the string "true", 'imgfilter' is applied to the second argument
     """
-    value = value.split(';')
 
-    if len(value) < min_args:
-        raise Exception("not enough arguments")
-
-    return value
-
-
-def all_to_int(array):
-    """
-    Used to convert an array of string args to ints
-    """
+    return lambda value, img : img.filter(imgfilter) if value == "true" else img
     
-    return [int(x.strip()) for x in array]
+def lambda_function(func):
+    """
+    Returns a lambda with two arguments
+    if the first argument is the string "true", 'func' is applied to the second argument
+    """
 
+    return lambda value, img : func(img) if value == "true" else img
+
+
+def lambda_function_adv(func, minval, maxval):
+    """
+    Returns a function with two arguments
+
+    the first argument is a string
+    that string is converted to an int and clamped between 'minval' and 'maxval'
+
+    The second argument is an image
+    """
+    def fun(value, img):
+        try:
+            value = np.clip(int(value), minval, maxval)
+        except:
+            raise Exception("Argument error")
+        
+        return func(img, value)
+
+    return fun
 
 #####################
 # COMMAND FUNCTIONS #
@@ -281,8 +297,10 @@ def multirand(value, img):
         value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[3:])
 
     return multi(value, img)
-    
-    
+
+def random(img):
+    pass
+
 #def repeat(value, img):
 #    #value = number;number
 #    
@@ -406,48 +424,6 @@ def multirand(value, img):
 #                distance = math.sqrt(x * x + y * y)
 #                img[i ,j] = tuple(map(lambda x : int(x * (1 - (distance / max_distance * value)) * 3), img[i ,j]))
 
-
-##########################################
-# HELPER FUNCTIONS FOR THE COMMANDS LIST #
-##########################################
-
-
-def lambda_filter(imgfilter):
-    """
-    Returns a lambda with two arguments
-    if the first argument is the string "true", 'imgfilter' is applied to the second argument
-    """
-
-    return lambda value, img : img.filter(imgfilter) if value == "true" else img
-    
-def lambda_function(func):
-    """
-    Returns a lambda with two arguments
-    if the first argument is the string "true", 'func' is applied to the second argument
-    """
-
-    return lambda value, img : func(img) if value == "true" else img
-
-
-def lambda_function_adv(func, minval, maxval):
-    """
-    Returns a function with two arguments
-
-    the first argument is a string
-    that string is converted to an int and clamped between 'minval' and 'maxval'
-
-    The second argument is an image
-    """
-    def fun(value, img):
-        try:
-            value = np.clip(int(value), minval, maxval)
-        except:
-            raise Exception("Argument error")
-        
-        return func(img, value)
-
-    return fun
-        
                 
 #################
 # COMMANDS LIST #
@@ -475,5 +451,32 @@ commands_list = {
     "multi": multi,
     "multirand": multirand,
 
-    "solarize": lambda_function_adv(ImageOps.solarize, -100, 100)
+    "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
+
+    "random": random
 }
+
+
+#####################################
+# HELPER FUNCTIONS FOR THE COMMANDS #
+#####################################
+
+
+def args_to_array(value, min_args):
+    """
+    Converts a string of arguments seperated by ";" to a list of values
+    """
+    value = value.split(';')
+
+    if len(value) < min_args:
+        raise Exception("not enough arguments")
+
+    return value
+
+
+def all_to_int(array):
+    """
+    Used to convert an array of string args to ints
+    """
+    
+    return [int(x.strip()) for x in array]

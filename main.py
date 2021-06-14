@@ -48,14 +48,9 @@ class Listener(tweepy.StreamListener):
 
         if not "=" in text:
             return
-
-        commands = text.split(",")
-
-        if len(commands) < 1:
-            return
         
         # add tweet to the queues
-        queues.append((twitter, tweet, root_tweet, commands))
+        queues.append((twitter, tweet, root_tweet, text))
 
 
 listener = Listener()
