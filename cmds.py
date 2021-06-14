@@ -195,6 +195,7 @@ def multi(value, img):
                 
             # Run the commands
             if command[0] in commands_list:
+                print("COMMAND IS " + command)
                 img = commands_list[command[0]](command[1], img)
             else:
                 raise Exception("multi: command doesn't exist!")
