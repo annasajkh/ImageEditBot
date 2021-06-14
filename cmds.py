@@ -281,17 +281,17 @@ def wave(value, img):
 
     Args:
     1 - h or v
-    2 - amplitude
-    3 - frequency
+    2 - frequency
+    3 - amplitude
 
     e.g.
-    h;300;50
+    h;50;300
     """
 
     values = args_to_array(value, 3)
 
-    amplitude = int(values[1])
-    frequency = int(values[2])
+    frequency = int(values[1])
+    amplitude = int(values[2])
 
     v = values[0] == 'v'
 
