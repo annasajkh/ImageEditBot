@@ -4,6 +4,7 @@ import os
 from cmds import commands_list
 
 from PIL import Image
+import traceback
 
 
 def handle(twitter, tweet, root_tweet, commands):
@@ -56,6 +57,8 @@ def handle(twitter, tweet, root_tweet, commands):
 
             twitter.update_status(f"@{tweet.user.screen_name}", media_ids=media_ids, in_reply_to_status_id=tweet.id)
     except Exception as e:
+        traceback.print_exc()
+        
         string = str(e)
 
         #if the error message is larger than 280 charcter then crop it
