@@ -48,8 +48,10 @@ def handle(twitter, tweet, root_tweet, commands_text):
     try:
 
         if "recover" in commands_text:
+            count = 0
             for media in entities:
-                urllib.request.urlretrieve(media["media_url"], "img.png")
+                urllib.request.urlretrieve(media["media_url"], f"img{count}.png")
+                count += 1
 
             imgs = []
             for img_path in glob.glob("*.png"):
