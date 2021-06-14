@@ -454,6 +454,8 @@ commands_list = {
     "max": maxfunc,
     "median": median,
     "contrast": contrast,
+    "multi": multi,
+    "multirand": multirand,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100)
 }
