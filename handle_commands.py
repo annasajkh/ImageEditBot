@@ -37,7 +37,7 @@ def execute_commands(img, commands_text):
     return img
 
 
-def handle(twitter, tweet, root_tweet, commands):
+def handle(twitter, tweet, root_tweet, commands_text):
     global value
     global key
     global res
@@ -53,7 +53,7 @@ def handle(twitter, tweet, root_tweet, commands):
 
             img = Image.open("img.png")
 
-            execute_commands(img)
+            execute_commands(img,commands_text)
 
             img.save("img.png")
             res = twitter.media_upload("img.png")
