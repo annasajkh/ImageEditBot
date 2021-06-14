@@ -159,7 +159,7 @@ def multi(value, img):
     Allows applying different commands in different parts of the image
 
     Args:
-    x_percent;y_percent;width_height;<commands>
+    x_percent;y_percent;width;height;<commands>
     commands are separated with :
 
     e.g
@@ -203,10 +203,10 @@ def multi(value, img):
     x, y, w, h = [int(i) for i in [x, y, w, h]]
 
     # Convert percentages to pixel coords
-    x = (img.size[0]//100) * x
-    y = (img.size[1]//100) * y
-    w = (img.size[0]//100) * w
-    h = (img.size[1]//100) * h
+    x = img.size[0] * (x//100)
+    y = img.size[1] * (y//100)
+    w = img.size[0] * (w//100)
+    h = img.size[1] * (h//100)
 
     #
     # Apply the effects
