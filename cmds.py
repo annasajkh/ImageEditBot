@@ -235,22 +235,31 @@ def multirand(value, img):
 
     Args:
 
-    h_or_v;min_start;max_start;min_length;<commands>
+    h_or_v;min_start;max_start;min_length;max_length;<commands>
 
     min_start, max_start and min_length are all in percentages
     """
 
     # Arguments
     values = args_to_array(value, 5)
+    print(values)
 
     # Check if argument 0 is valid
     if value[0] not in ["h", "v"]:
         raise Exception('multirand: first argument must be "h" or "v"')
 
+
     # Assign names to the variables for readibility
-    min_start = values[1]
-    max_start = values[2]
-    min_length = values[3]
+    percent = lambda x : np.clip(int(x), 1, 100)
+    min_start = percent(values[1])
+    max_start = percent(values[2])
+    min_length = percent(values[3])
+    max_length = percent(values[4])
+
+    # No trolling
+    if min_length > max_length:
+        raise Exception('multirand: min_length cannot be greater than max_length!')
+        
 
     v = value[0] == "v"
 
@@ -261,17 +270,17 @@ def multirand(value, img):
 
     
     # Get the start and end percentages
-    start = random.randint(np.clip(int(min_start), 1, 100), np.clip(int(max_start), 1, 100))
-    end = random.randint(start + np.clip(int(min_length), 1, 100), size1)
+    start = random.randint(min_start, max_start)
+    end = percent(random.randint(start + min_length, start + max_length))
 
     start = int(start)
     end = int(end)
 
     # Call multi
     if v:
-        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[4:])
+        value = str(start) + ';0;' + str(end) + ';' + str(size2) + ';' + ';'.join(values[5:])
     else:
-        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[4:])
+        value = '0;' + str(start) + ';' + str(size2) + ';' + str(end) + ';' + ';'.join(values[5:])
 
 
     return multi(value, img)
