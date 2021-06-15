@@ -595,5 +595,6 @@ commands_list = {
     "filter": filterfunc,
     "crop_circle": crop_circle,
     "move": move,
-    "repeat": repeat
+    "repeat": repeat,
+    "resize": resize
 }
