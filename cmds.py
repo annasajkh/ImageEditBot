@@ -404,6 +404,8 @@ def repeat(value, img):
 
     
 def resize(value, img):
+
+    print("whyyy")
     
    #value = number;number
    value = all_to_int(args_to_array(value, 2))
