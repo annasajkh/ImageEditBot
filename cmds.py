@@ -401,6 +401,8 @@ def repeat(value, img):
    
    img = edit_functions.get_concat_tile_repeat(img, value[0], value[1])
 
+   return img
+
     
 #def resize(self, value):
 #    #value = number;number
