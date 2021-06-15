@@ -1,7 +1,7 @@
 import random
 
 import math
-
+import edit_functions
 import numpy as np
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 from opensimplex import OpenSimplex
@@ -393,42 +393,13 @@ def move(value, img):
     
     return Image.fromarray(img_arr)
 
-
-def slutter(value, img):
-    value = int(value.strip())
-    
-    img_arr = np.array(img)
-
-    for i in range(value):
-        x1 = random.randrange(0, img.width)
-        y1 = random.randrange(0, img.height)
-
-        x2 = random.randrange(0, img.width)
-        y2 = random.randrange(0, img.height)
-
-        img_arr[x2:y2] = img_arr[x1:y1]
-    
-    return Image.fromarray(img_arr)
-
-
-def swirl(value, img):
-    """
-    this is hard idk how to do it
-    """
-    value = float(value)
-
-    img.swirl(value)
-    
-    return img
-
         
-#def repeat(value, img):
-#    #value = number;number
-#    
-#    value = args_to_array(value, 2)
-#    
-#    self.img = self.img.resize((self.img.width // value[0], self.img.height // value[1]))
-#    self.img = edit_functions.get_concat_tile_repeat(self.img, value[0], value[1])
+def repeat(value, img):
+   #value = number;number
+   
+   value = args_to_array(value, 2)
+   
+   img = edit_functions.get_concat_tile_repeat(img, value[0], value[1])
 
     
 #def resize(self, value):
@@ -623,5 +594,6 @@ commands_list = {
     "swirl": swirl,
     "crop_circle": crop_circle,
     "slutter": slutter,
-    "move": move
+    "move": move,
+    "repeat": repeat
 }
