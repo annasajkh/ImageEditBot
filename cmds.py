@@ -363,6 +363,36 @@ def crop_circle(value, img):
                 img_data[x, y] = 0
     return img
 
+def move(value, img):
+    """
+    move image
+    args
+    1. h / v
+    2. percentage
+    """
+
+    value = args_to_array(value, 2)
+
+
+    img_arr = np.array(img)
+
+    if value[0] == "h":
+        val = int(np.clip(int(value[1].strip()),0,100) / 100 * img.width)
+
+        for i in range(img.width):
+            img_arr[i,:] = np.roll(img_arr[i,:],val,0)
+
+    elif value[0] == "v":
+        val = int(np.clip(int(value[1].strip()),0,100) / 100 * img.height)
+
+        for i in range(img.height):
+            img_arr[:,i] = np.roll(img_arr[:, i],val,0)
+        
+    else:
+        raise Exception("Argument error for flip")
+    
+    return Image.fromarray(img_arr)
+
 
 def slutter(value, img):
     value = int(value.strip())
@@ -381,29 +411,14 @@ def slutter(value, img):
     return Image.fromarray(img_arr)
 
 
-def spiral(value, img):
+def swirl(value, img):
     """
     this is hard idk how to do it
     """
-    # value = float(value)
+    value = float(value)
 
-    # center = (img.width // 2, img.height // 2)
-
-    # img_data = img.load()
-    # img_temp = Image.new("RGB",(img.width,img.height))
-    # img_temp_data = img_temp.load()
-
-    # count = 1
-
-    # for x in range(img.width):
-    #     for y in range(img.height):
-    #         if math.dist(center,(x,y)) <= count:
-    #             img_temp_data[x, y] = img_data[x, y]
-    #     img_temp.rotate(value)
-    #     count += 1
+    img.swirl(value)
     
-    # return img_temp
-
     return img
 
         
@@ -605,7 +620,8 @@ commands_list = {
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
     "filter": filterfunc,
-    "spiral": spiral,
+    "swirl": swirl,
     "crop_circle": crop_circle,
-    "slutter": slutter
+    "slutter": slutter,
+    "move": move
 }
