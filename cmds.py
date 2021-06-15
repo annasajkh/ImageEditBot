@@ -3,36 +3,12 @@ import random
 import math
 
 import numpy as np
-import numexpr as ne
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 from opensimplex import OpenSimplex
 
+from cmds_helper import *
 from impact import make_caption
-
-
-#####################################
-# HELPER FUNCTIONS FOR THE COMMANDS #
-#####################################
-
-
-def args_to_array(value, min_args):
-    """
-    Converts a string of arguments seperated by ";" to a list of values
-    """
-    value = value.split(';')
-
-    if len(value) < min_args:
-        raise Exception("not enough arguments")
-
-    return value
-
-
-def all_to_int(array):
-    """
-    Used to convert an array of string args to ints
-    """
-    
-    return [int(x.strip()) for x in array]
+from pixel import pixel
 
 
 #####################
@@ -404,10 +380,6 @@ def slutter(value, img):
     
     return Image.fromarray(img_arr)
 
-        
-
-
-
 
 def spiral(value, img):
     """
@@ -433,8 +405,8 @@ def spiral(value, img):
     # return img_temp
 
     return img
-        
 
+        
 #def repeat(value, img):
 #    #value = number;number
 #    
@@ -628,6 +600,7 @@ commands_list = {
     "multi": multi,
     "multirand": multirand,
     "wave": wave,
+    "pixel": pixel,
 
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
