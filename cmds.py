@@ -591,9 +591,7 @@ commands_list = {
     "solarize": lambda_function_adv(ImageOps.solarize, -100, 100),
 
     "filter": filterfunc,
-    "swirl": swirl,
     "crop_circle": crop_circle,
-    "slutter": slutter,
     "move": move,
     "repeat": repeat
 }
