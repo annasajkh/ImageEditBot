@@ -394,23 +394,21 @@ def move(value, img):
 
         
 def repeat(value, img):
-   #value = number;number
-   
-   value = all_to_int(args_to_array(value, 2))
-   
-   img = get_concat_tile_repeat(img, value[0], value[1])
+    #value = number;number
 
-   return img
+    value = all_to_int(args_to_array(value, 2))
+
+    img = get_concat_tile_repeat(img, value[0], value[1])
+
+    return img
 
     
 def resize(value, img):
     print("whyyy")
-
-    #value = number;number
     value = all_to_int(args_to_array(value, 2))
-    
+
     img = img.resize((np.clip(value[0], 0, 8192), np.clip(value[1], 0, 8192)))
-    
+
     return img
 
 #def brightness(self, value):
