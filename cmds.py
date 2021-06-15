@@ -1,7 +1,6 @@
 import random
 
 import math
-import edit_functions
 import numpy as np
 from PIL import Image, ImageFilter, ImageFont, ImageDraw, ImageOps, ImageEnhance
 from opensimplex import OpenSimplex
@@ -399,18 +398,19 @@ def repeat(value, img):
    
    value = all_to_int(args_to_array(value, 2))
    
-   img = edit_functions.get_concat_tile_repeat(img, value[0], value[1])
+   img = get_concat_tile_repeat(img, value[0], value[1])
 
    return img
 
     
-#def resize(self, value):
-#    #value = number;number
-#    
-#    value = args_to_array(value, 2)
-#    
-#    self.img = self.img.resize((edit_functions.clamp(value[0], 1, 8192), edit_functions.clamp(value[1], 1, 8192)))
+def resize(value, img):
     
+   #value = number;number
+   value = args_to_array(value, 2)
+   
+   img = img.resize((np.clip(value[0], 1, 8192), np.clip((value[1], 1, 8192))))
+   
+   return img
 
 #def brightness(self, value):
 #    try:
