@@ -397,7 +397,7 @@ def move(value, img):
 def repeat(value, img):
    #value = number;number
    
-   value = args_to_array(value, 2)
+   value = all_to_int(args_to_array(value, 2))
    
    img = edit_functions.get_concat_tile_repeat(img, value[0], value[1])
 
