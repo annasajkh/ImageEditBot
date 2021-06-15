@@ -408,7 +408,7 @@ def resize(value, img):
    #value = number;number
    value = args_to_array(value, 2)
    
-   img = img.resize((np.clip(value[0], 0, 8192), np.clip((value[1], 0, 8192))))
+   img = img.resize((np.clip(value[0], 0, 8192), np.clip(value[1], 0, 8192))))
    
    return img
 
