@@ -73,7 +73,7 @@ def impact(value, img):
 
     values = args_to_array(value, 1)
 
-    top_text = values[0]
+    top_text = values[0] if values[0] != "" else None
     bottom_text = values[1] if len(values) != 1 else None
 
     make_caption(img, top_text, bottom_text)
@@ -411,62 +411,19 @@ def resize(value, img):
 
     return img
 
-#def brightness(self, value):
-#    try:
-#        value = int(value)
-#    except:
-#        raise Exception("there is something wrong with brightness value")
-#    
-#    applier = ImageEnhance.Brightness(self.img)
-#    
-#    self.img = applier.enhance(value)
+
+def hue(self, value):
+    #value = number
+    try:
+        value = int(value)
+    except:
+        raise Exception("there is something wrong with hue value")
+
     
-
-#def hue(self, value):
-#    #value = number
-#    try:
-#        value = int(value)
-#    except:
-#        raise Exception("there is something wrong with hue value")
-#    
-#    HSV = self.img.convert("HSV")
-#    H, S, V = HSV.split()
-#    H = H.point(lambda x : value)
-#    self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
-
-
-#def wave(self, value):
-#    #value = number;number
-#    value = args_to_array(value, 2)
-#    
-#    A = self.img.width / value[1]
-#    w = value[0] / self.img.height
-#    shift = lambda x: A * numpy.sin(2.0 * numpy.pi * x * w)
-#    
-#    arr = numpy.array(self.img)
-#    
-#    for i in range(self.img.width):
-#        arr[:, i] = numpy.roll(arr[:, i], int(shift(i)))
-#        
-#        self.img = PillImage.fromarray(arr)
-
-
-#def glitch(self, value):
-#    #value = true or false
-#    if not value == "true":
-#        try:
-#            value = edit_functions.clamp(int(value), -256, 256)
-#        except:
-#            raise Exception("there is something wrong with glitch value")
-#        
-#        arr = numpy.array(self.img)
-#        
-#            for i in range(self.img.width):
-#                arr[:, i] = numpy.roll(arr[:, i], random.randrange(-value, value))
-#                
-#                self.img = PillImage.fromarray(arr)
-#            else:
-#                self.img = self.img.point(lambda x : random.randint(-256, 256))
+    HSV = self.img.convert("HSV")
+    H, S, V = HSV.split()
+    H = H.point(lambda x : value)
+    self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
 
 
 #def square_crop(self, value):
@@ -569,6 +526,7 @@ commands_list = {
     "rotate": lambda value, img : img.rotate(int(value), expand=True),
     "glitch": lambda value, img : img.point(lambda x : random.randint(-256, 256)) if value == "true" else img,
     "brightness": lambda value, img : ImageEnhance.Brightness(img).enhance(float(value)),
+    "hue": lambda value, img : Image.merge('HSV', (img.convert('HSV').split()[0].point(lambda x : int(value))) + img.convert('HSV')[1:]).convert('RGB'),
 
     "contour": lambda_filter(ImageFilter.CONTOUR),
     "enhance": lambda_filter(ImageFilter.EDGE_ENHANCE_MORE),

@@ -9,7 +9,7 @@ from PIL import ImageFilter
 
 img = Image.open('cat.png')
 
-img = commands_list["brightness"]("2",img)
+img = commands_list["impact"](";what",img)
 
 img.save('out.png')
 
