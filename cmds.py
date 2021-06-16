@@ -423,7 +423,7 @@ def hue(self, value):
     HSV = self.img.convert("HSV")
     H, S, V = HSV.split()
     H = H.point(lambda x : value)
-    self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
+    self.img = Image.merge("HSV", (H, S, V)).convert("RGB")
 
 
 #def square_crop(self, value):
