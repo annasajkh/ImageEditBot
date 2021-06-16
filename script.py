@@ -9,7 +9,7 @@ from PIL import ImageFilter
 
 img = Image.open('cat.png')
 
-img = commands_list["sheer"]("v;0.1",img)
+img = commands_list["multi"]("50;0;100;100;wave=v;500;1000",img)
 
 img.save('out.png')
 
