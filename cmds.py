@@ -394,8 +394,8 @@ def move(value, img):
 
         
 def repeat(value, img):
-    #value = number;number
-
+    # value = number;number
+    # range 0 -> 20
     value = all_to_int(args_to_array(value, 2))
 
     img = get_concat_tile_repeat(img, np.clip(value[0],0,20), np.clip(value[1],0,20))
