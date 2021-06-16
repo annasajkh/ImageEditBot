@@ -568,6 +568,7 @@ def lambda_function_adv(func, minval, maxval):
 commands_list = {
     "rotate": lambda value, img : img.rotate(int(value), expand=True),
     "glitch": lambda value, img : img.point(lambda x : random.randint(-256, 256)) if value == "true" else img,
+    "brightness": lambda value, img : ImageEnhance.Brightness(img).enhance(float(value)),
 
     "contour": lambda_filter(ImageFilter.CONTOUR),
     "enhance": lambda_filter(ImageFilter.EDGE_ENHANCE_MORE),
