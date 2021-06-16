@@ -9,7 +9,7 @@ from PIL import ImageFilter
 
 img = Image.open('cat.png')
 
-img = commands_list["impact"](";what",img)
+img = commands_list["sheer"]("v;0.1",img)
 
 img.save('out.png')
 

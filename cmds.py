@@ -362,6 +362,7 @@ def crop_circle(value, img):
                 img_data[x, y] = 0
     return img
 
+# TODO: sometimes it doesn't work and idk why
 def move(value, img):
     """
     move image
@@ -379,7 +380,7 @@ def move(value, img):
         val = int(np.clip(int(value[1].strip()),0,100) / 100 * img.width)
 
         for i in range(img.width):
-            img_arr[i,:] = np.roll(img_arr[i,:],val,0)
+            img_arr[i, :] = np.roll(img_arr[i, :],val,0)
 
     elif value[0] == "v":
         val = int(np.clip(int(value[1].strip()),0,100) / 100 * img.height)
@@ -427,8 +428,33 @@ def hue(value, img):
 
 
 def sheer(value, img):
-    value = int(value)
+    value = args_to_array(value, 2)
 
+
+    img_arr = np.array(img)
+
+    if value[0] == "h":
+        val = int(value[1])
+
+        index = 0
+
+        for i in range(img.width):
+            img_arr[i, :] = np.roll(img_arr[i, :], index * val,0)
+            index += 1
+
+    elif value[0] == "v":
+        val = int(value[1])
+
+        index = 0
+
+        for i in range(img.height):
+            img_arr[:, i] = np.roll(img_arr[:, i], index * val,0)
+            index += 1
+        
+    else:
+        raise Exception("Argument error for flip")
+    
+    return Image.fromarray(img_arr)
 
 
 
@@ -561,5 +587,6 @@ commands_list = {
     "crop_circle": crop_circle,
     "move": move,
     "repeat": repeat,
-    "resize": resize
+    "resize": resize,
+    "sheer": sheer
 }
