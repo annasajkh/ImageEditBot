@@ -412,7 +412,7 @@ def resize(value, img):
     return img
 
 
-def hue(self, value):
+def hue(value, img):
     #value = number
     try:
         value = int(value)
@@ -420,10 +420,16 @@ def hue(self, value):
         raise Exception("there is something wrong with hue value")
 
     
-    HSV = self.img.convert("HSV")
+    HSV = img.convert("HSV")
     H, S, V = HSV.split()
     H = H.point(lambda x : value)
-    self.img = Image.merge("HSV", (H, S, V)).convert("RGB")
+    return Image.merge("HSV", (H, S, V)).convert("RGB")
+
+
+def sheer(value, img):
+
+    pass
+
 
 
 #def square_crop(self, value):
