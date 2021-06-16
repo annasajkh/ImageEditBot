@@ -398,11 +398,11 @@ def move(value, img):
 
         
 def repeat(value, img):
-    #value = number;number
-
+    # value = number;number
+    # range 0 -> 20
     value = all_to_int(args_to_array(value, 2))
 
-    img = get_concat_tile_repeat(img, value[0], value[1])
+    img = get_concat_tile_repeat(img, np.clip(value[0],0,20), np.clip(value[1],0,20))
 
     return img
 
@@ -416,7 +416,7 @@ def resize(value, img):
     return img
 
 
-def hue(self, value):
+def hue(value, img):
     #value = number
     try:
         value = int(value)
@@ -424,10 +424,16 @@ def hue(self, value):
         raise Exception("there is something wrong with hue value")
 
     
-    HSV = self.img.convert("HSV")
+    HSV = img.convert("HSV")
     H, S, V = HSV.split()
     H = H.point(lambda x : value)
-    self.img = PillImage.merge("HSV", (H, S, V)).convert("RGB")
+    return Image.merge("HSV", (H, S, V)).convert("RGB")
+
+
+def sheer(value, img):
+    value = int(value)
+
+
 
 
 #def square_crop(self, value):

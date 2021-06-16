@@ -41,6 +41,8 @@ def handle(twitter, tweet, root_tweet, commands_text):
     global value
     global key
     global res
+
+    print(commands_text)
     
     media_ids = []
     entities = root_tweet.extended_entities["media"]
