@@ -393,7 +393,7 @@ def move(value, img):
             img_arr[:,i] = np.roll(img_arr[:, i],val,0)
         
     else:
-        raise Exception("Argument error for flip")
+        raise Exception("Argument error for move")
     
     return Image.fromarray(img_arr)
 
@@ -456,7 +456,7 @@ def sheer(value, img):
             index += 1
         
     else:
-        raise Exception("Argument error for flip")
+        raise Exception("Argument error for sheer")
     
     return Image.fromarray(img_arr)
 
