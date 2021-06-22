@@ -1,5 +1,4 @@
 import re
-import traceback
 from api import auth
 import tweepy
 import handle_commands
@@ -11,14 +10,19 @@ class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
         global root_tweet
 
+        print(tweet.text)
+
         if not tweet.in_reply_to_status_id_str == None:
             root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
 
+            print(root_tweet.text)
+
             if "come" in root_tweet.text:
-                print(twitter.text)
+                print(root_tweet.text)
 
                 cum = tweet.text.replace("come", "cum")
                 twitter.update_status(cum, in_reply_to_status_id=root_tweet.id, auto_populate_reply_metadata=True)
+                
                 return
 
 
