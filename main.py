@@ -1,5 +1,5 @@
-from logging import root
 import re
+import traceback
 from api import auth
 import tweepy
 import handle_commands
@@ -13,10 +13,13 @@ class Listener(tweepy.StreamListener):
 
         if not tweet.in_reply_to_status_id_str == None:
             root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
-            
+
             if "come" in root_tweet.text:
+                print(twitter.text)
+                
                 cum = tweet.text.replace("come", "cum")
                 twitter.update_status(cum, in_reply_to_status_id=root_tweet.id)
+                return
 
 
         # if there is no in_reply_to_status_id_str the it's not a comment
@@ -69,6 +72,8 @@ while True:
     try:
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except:
+        traceback.print_exception()
+
         if queues:
             first = queues.pop(0)
             handle_commands.handle(first[0],first[1],first[2],first[3])
