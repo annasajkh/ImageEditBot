@@ -9,7 +9,7 @@ queues = []
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
         global root_tweet
-        
+
         # if there is no in_reply_to_status_id_str the it's not a comment
         if tweet.in_reply_to_status_id_str == None:
             root_tweet = tweet
@@ -54,12 +54,12 @@ class Listener(tweepy.StreamListener):
 
 listener = Listener()
 stream = tweepy.Stream(auth, listener=listener)
+stream.filter(track=["@ImageEditBot"],is_async=True)
 
-
-while True:
-    try:
-        stream.filter(track=["@ImageEditBot"],is_async=True)
-    except:
-        if queues:
-            first = queues.pop(0)
-            handle_commands.handle(first[0],first[1],first[2],first[3])
+# while True:
+#     try:
+#         stream.filter(track=["@ImageEditBot"],is_async=True)
+#     except:
+#         if queues:
+#             first = queues.pop(0)
+#             handle_commands.handle(first[0],first[1],first[2],first[3])
