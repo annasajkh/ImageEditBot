@@ -16,7 +16,7 @@ class Listener(tweepy.StreamListener):
 
             if "come" in root_tweet.text:
                 print(twitter.text)
-                
+
                 cum = tweet.text.replace("come", "cum")
                 twitter.update_status(cum, in_reply_to_status_id=root_tweet.id)
                 return
@@ -72,7 +72,7 @@ while True:
     try:
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except:
-        traceback.print_exception()
+        traceback.print_exc()
 
         if queues:
             first = queues.pop(0)
