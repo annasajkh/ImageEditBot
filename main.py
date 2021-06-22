@@ -10,6 +10,18 @@ class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
         global root_tweet
 
+        if not tweet.in_reply_to_status_id_str == None:
+            root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
+
+            if "come" in root_tweet.text:
+                print(root_tweet.text)
+
+                cum = tweet.text.replace("come", "cum")
+                twitter.update_status(cum, in_reply_to_status_id=root_tweet.id, auto_populate_reply_metadata=True)
+                
+                return
+
+
         # if there is no in_reply_to_status_id_str the it's not a comment
         if tweet.in_reply_to_status_id_str == None:
             root_tweet = tweet
@@ -53,13 +65,13 @@ class Listener(tweepy.StreamListener):
 
 
 listener = Listener()
-stream = tweepy.Stream(auth, listener)
-stream.filter(track=["@ImageEditBot"],is_async=True)
+stream = tweepy.Stream(auth, listener=listener)
 
-# while True:
-#     try:
-#         stream.filter(track=["@ImageEditBot"],is_async=True)
-#     except:
-#         if queues:
-#             first = queues.pop(0)
-#             handle_commands.handle(first[0],first[1],first[2],first[3])
+
+while True:
+    try:
+        stream.filter(track=["@ImageEditBot"],is_async=True)
+    except:
+        if queues:
+            first = queues.pop(0)
+            handle_commands.handle(first[0],first[1],first[2],first[3])
