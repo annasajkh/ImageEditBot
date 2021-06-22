@@ -1,3 +1,4 @@
+from logging import root
 import re
 from api import auth
 import tweepy
@@ -9,6 +10,14 @@ queues = []
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
         global root_tweet
+
+        if not tweet.in_reply_to_status_id_str == None:
+            root_tweet = twitter.get_status(tweet.in_reply_to_status_id_str)
+            
+            if "come" in root_tweet.text:
+                cum = tweet.text.replace("come", "cum")
+                twitter.update_status(cum, in_reply_to_status_id=root_tweet.id)
+
 
         # if there is no in_reply_to_status_id_str the it's not a comment
         if tweet.in_reply_to_status_id_str == None:
