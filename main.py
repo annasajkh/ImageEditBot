@@ -1,6 +1,6 @@
 # import re
-# from api import auth
-# import tweepy
+from api import auth
+import tweepy
 # import handle_commands
 from api import twitter
 
