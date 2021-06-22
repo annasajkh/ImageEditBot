@@ -8,7 +8,8 @@ from api import twitter
 #cumm
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
-        twitter.update_status(f"@{tweet.user.screen_name} {tweet.text.replace("come", "cum")}", in_reply_to_status_id=tweet.id)
+        cum = tweet.text.replace("come", "cum")
+        twitter.update_status(f"@{tweet.user.screen_name} {cum}", in_reply_to_status_id=tweet.id)
 
 # queues = []
 
