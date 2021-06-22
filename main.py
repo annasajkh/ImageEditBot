@@ -72,7 +72,6 @@ while True:
     try:
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except:
-        traceback.print_exc()
 
         if queues:
             first = queues.pop(0)
