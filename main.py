@@ -53,8 +53,8 @@ class Listener(tweepy.StreamListener):
 
 
 listener = Listener()
-stream = tweepy.Stream(auth, listener=listener)
-stream.filter(track=["@ImageEditBot"])#,is_async=True)
+stream = tweepy.Stream(auth, listener)
+stream.filter(track=["@ImageEditBot"],is_async=True)
 
 # while True:
 #     try:
