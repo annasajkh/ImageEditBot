@@ -18,7 +18,7 @@ class Listener(tweepy.StreamListener):
                 print(twitter.text)
 
                 cum = tweet.text.replace("come", "cum")
-                twitter.update_status(cum, in_reply_to_status_id=root_tweet.id)
+                twitter.update_status(cum, in_reply_to_status_id=root_tweet.id, auto_populate_reply_metadata=True)
                 return
 
 
