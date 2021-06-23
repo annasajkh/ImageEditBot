@@ -70,6 +70,7 @@ class Listener(tweepy.StreamListener):
 listener = Listener()
 stream = tweepy.Stream(auth, listener=listener)
 
+print("starting...")
 
 while True:
     try:
