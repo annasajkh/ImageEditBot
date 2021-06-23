@@ -75,8 +75,6 @@ print("starting...")
 while True:
     try:
         stream.filter(track=["@ImageEditBot"])#,is_async=True)
-
-        print("ahh")
     except Exception as e:
         print(e)
         if queues:
