@@ -9,8 +9,6 @@ queues = []
 class Listener(tweepy.StreamListener):
     def on_status(self, tweet):
 
-        print(tweet.text)
-
         global root_tweet
 
         if not tweet.in_reply_to_status_id_str == None:
@@ -74,9 +72,8 @@ print("starting...")
 
 while True:
     try:
-        stream.filter(track=["@ImageEditBot"])#,is_async=True)
-    except Exception as e:
-        print(e)
+        stream.filter(track=["@ImageEditBot"] ,is_async=True)
+    except:
         if queues:
             first = queues.pop(0)
             handle_commands.handle(first[0],first[1],first[2],first[3])
