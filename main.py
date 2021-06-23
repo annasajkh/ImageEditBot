@@ -70,6 +70,7 @@ stream = tweepy.Stream(auth, listener=listener)
 
 while True:
     try:
+        print("trying")
         stream.filter(track=["@ImageEditBot"],is_async=True)
     except:
         if queues:
